@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Личный кабинет | Корпоративные Тренинги</title>
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="src/main/resources/static/css/style.css" />
+</head>
+<body>
+
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="/user-dashboard.html">Профиль</a></li>
+          <li class="nav-item"><a class="nav-link" href="/trainings">Список тренингов</a></li>
+          <li class="nav-item"><a class="nav-link" href="settings.html">Настройки</a></li>
+          <li class="nav-item"><a class="nav-link" href="/index.html">Выход</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<div class="dashboard-container">
+  <aside class="sidebar">
+    <nav class="nav flex-column">
+      <a class="nav-link-profile active" href="user-dashboard.html">Профиль</a>
+      <a class="nav-link-profile" href="trainings.html">Список тренингов</a>
+      <a class="nav-link-profile" href="/settings">Настройки</a>
+      <a class="nav-link-profile" href="/logout">Выход</a>
+    </nav>
+  </aside>
+
+  <main class="profile-content">
+    <section class="user-info">
+      <div class="profile-photo-container">
+        <img src="src/main/resources/static/img/default-avatar.png" alt="Фото профиля" class="profile-photo">
+        <button class="btn-change-photo">Изменить фото</button>
+      </div>
+      <h2>Имя пользователя</h2>
+      <div class="user-rating">
+        <span>★</span><span>★</span><span>★</span><span>★</span><span>☆</span> <!-- Примерное отображение рейтинга -->
+      </div>
+    </section>
+<section class="user-bio">
+  <h3>О себе</h3>
+  <textarea id="bio" name="bio" rows="4" cols="50" placeholder="Расскажите о себе"></textarea>
+  <button onclick="editBio()">Редактировать</button>
+</section>
+
+<script>
+function editBio() {
+  // Эта функция переключает возможность редактирования поля "О себе"
+  var bio = document.getElementById("bio");
+  if (bio.hasAttribute('readonly')) {
+    bio.removeAttribute('readonly');
+  } else {
+    bio.setAttribute('readonly', 'readonly');
+  }
+}
+</script>
+    <section class="training-archive">
+      <h3>Архив тренингов</h3>
+      <ul>
+        <li>Название тренинга</li> <!-- Примерное отображение списка тренингов -->
+      </ul>
+    </section>
+
+    <section class="actions">
+      <a href="#" class="btn btn-primary">Записаться на новый тренинг</a>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <!-- Вставьте содержимое вашего футера -->
+</footer>
+
+<script src="/js/jquery-3.3.1.slim.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

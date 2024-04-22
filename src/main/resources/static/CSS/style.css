@@ -1,0 +1,534 @@
+:root {
+    --color-primary: #9aaee1;
+    --color-secondary: #ffffff;
+    --color-footer-gradient-start: #E3E9F0;
+    --color-footer-gradient-middle: #FFEEEE;
+    --color-footer-gradient-end: #FFE2E5;
+    --color-section-gradient-start: #E6EFFF;
+    --color-section-gradient-middle: #D9E1FF;
+    --color-section-gradient-end: #CBD2FF;
+    --color-hero-gradient-start: #9aaee1;
+    --color-hero-gradient-middle1: #3862FF;
+    --color-hero-gradient-middle2: #3862FF;
+    --color-hero-gradient-end: #7E92FF;
+    --shadow-color: #9747FF;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+header {
+    background-color: #ffffff;
+    color: var(--color-primary);
+}
+.hero {
+    position: relative; /* Позиционирование для псевдоэлемента */
+    background-color: #1F50FE; /* Фон под изображением */
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: left;
+    padding: 25px;
+    padding-top: 550px;
+    z-index: -1; /* Над фоном */
+
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: url('src/main/resources/static/img/fon1.png') no-repeat center center;
+    background-size: cover;
+    opacity: 0.8; /* Прозрачность изображения */
+}
+
+.hero-content {
+    position: relative; /* Для z-index */
+    z-index: 1; /* Над фоном */
+}
+
+.hero-content h1 {
+    font-size: 150px;
+    font-family: 'Roboto-Bold';
+    color: var(--color-secondary);
+}
+
+.hero-content p {
+    font-size: 50px;
+    font-family: 'Roboto-Regular';
+    color: var(--color-secondary);
+}
+.btn-width {
+    width: 300px;
+    font-size: 30px;
+    text-align: center;
+}
+
+.section-courses {
+    background: linear-gradient(to right, var(--color-section-gradient-start), var(--color-section-gradient-middle), var(--color-section-gradient-end));
+    padding: 2rem 1rem;
+}
+.me-2, .btn-outline-primary{
+    font-size: 30px;
+    width: 400px;
+    height: 70px;
+    text-align: center;
+}
+
+.course-item {
+    padding: 45px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+}
+.course-image{
+    border-radius: 0 50px 0 50px;
+    box-shadow: -4px 5px 50px 2px var(--shadow-color);
+}
+.course-item img {
+    width: 100%;
+    max-width: 640px;
+    height: auto;
+    aspect-ratio: 640 / 300;
+    object-fit: cover;
+}
+
+.footer {
+    background: linear-gradient(to right, var(--color-footer-gradient-start), var(--color-footer-gradient-middle), var(--color-footer-gradient-end));
+    color: var(--color-primary);
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.875rem;
+}
+.section hero-section h2{
+    font-size: 50px;
+
+}
+@media (max-width: 768px) {
+    .hero-content {
+        padding: 25px;
+    }
+}
+header {
+    background-color: var(--color-secondary);
+    color: var(--color-primary);
+}
+
+/* РЕГИСТРАЦИЯ */
+.main-registration {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    background-color: #c6d8ff;
+}
+
+.registration-container {
+    background: rgba(255, 255, 255, 0.9); /* Легкая прозрачность */
+    padding: 40px;
+    border-radius: 25px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2); /* Усиленная тень для глубины */
+    width: 100%;
+    max-width: 500px; /* Увеличенный максимальный размер */
+}
+
+.registration-title {
+    color: var(--color-primary);
+    text-align: center;
+    margin-bottom: 30px; /* Добавлено больше пространства */
+}
+
+.form-group label {
+    font-weight: bold; /* Делаем текст жирным */
+    margin-bottom: 10px;
+    color: var(--color-primary); /* Цвет текста */
+}
+
+.form-group input {
+    width: 100%;
+    padding: 15px; /* Увеличенный padding */
+    border-radius: 10px; /* Скругление углов */
+    border: 2px solid var(--color-primary); /* Граница с цветом основной темы */
+    font-size: 16px; /* Увеличенный размер шрифта */
+}
+
+.btn.auth-btn {
+    width: 100%;
+    padding: 15px; /* Увеличенный padding */
+    background-color: var(--color-hero-gradient-start); /* Яркий цвет кнопки */
+    color: var(--color-secondary);
+    font-weight: bold; /* Жирный текст */
+    border-radius: 10px; /* Скругление углов */
+    margin-top: 20px; /* Отступ сверху */
+    transition: background-color 0.3s, transform 0.2s; /* Анимация */
+}
+
+.btn.auth-btn:hover {
+    background-color: var(--color-hero-gradient-end); 
+    transform: translateY(-3px); /* Подъем кнопки */
+}
+
+.registration-footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 16px; 
+}
+
+.registration-footer a {
+    color: var(--color-primary);
+    font-weight: bold; 
+    text-decoration: underline; 
+}
+
+/* ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ*/
+
+.dashboard-container {
+    display: flex;
+  height: 100vh; 
+}
+
+.sidebar {
+     position: fixed; /* Сделать сайдбар фиксированным */
+  top: 0; /* Прижать к верху страницы */
+  left: 0; /* Прижать к левому краю страницы */
+  width: 250px; /* Фиксированная ширина сайдбара */
+  height: 100%;
+    background: var(--color-section-gradient-start);
+    min-height: 100vh;
+    padding: 1rem;
+}
+
+.nav-link {
+    color: var(--color-primary);
+    margin: 0.5rem 0;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: var(--color-hero-gradient-end);
+}
+
+.profile-content {
+  margin-left: 250px; /* Сдвиг вправо на ширину сайдбара */
+  padding-top: 0; /* Уменьшаем верхний отступ, если он есть */
+    flex: 1;
+    padding: 2rem;
+    background-color: var(--color-secondary);
+}
+
+.user-info {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.profile-photo-container {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+.profile-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--color-primary);
+}
+
+.btn-change-photo {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 0.3rem 0.6rem;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-change-photo:hover {
+    background-color: var(--color-hero-gradient-middle1);
+}
+
+.user-rating {
+    font-size: 1.5rem;
+    color: var(--color-primary);
+}
+
+.training-archive {
+    background-color: var(--color-footer-gradient-middle);
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.training-archive h3 {
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+}
+
+.training-archive ul {
+    list-style: none;
+    padding: 0;
+}
+
+.training-archive li {
+    background-color: var(--color-secondary);
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 5px;
+    color: var(--color-primary);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.actions {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+    }
+}
+/* АВТОРИЗАЦИЯ */
+.main-authentication {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    background-color: #f9e5e8; /* Цвет фона */
+}
+
+.authentication-container {
+    background: rgba(255, 255, 255, 0.9); /* Легкая прозрачность */
+    padding: 40px;
+    border-radius: 25px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2); /* Усиленная тень для глубины */
+    width: 100%;
+    max-width: 500px; /* Увеличенный максимальный размер */
+}
+
+.authentication-title {
+    color: #ff6b6b; /* Цвет заголовка */
+    text-align: center;
+    margin-bottom: 30px; /* Добавлено больше пространства */
+}
+
+.form-group label {
+    font-weight: bold; /* Делаем текст жирным */
+    margin-bottom: 10px;
+    color: #ff6b6b; /* Цвет текста */
+}
+
+.form-group input {
+    width: 100%;
+    padding: 15px; /* Увеличенный padding */
+    border-radius: 10px; /* Скругление углов */
+    border: 2px solid #ff6b6b; /* Граница с цветом основной темы */
+    font-size: 16px; /* Увеличенный размер шрифта */
+}
+
+.btn.auth-btn {
+    width: 100%;
+    padding: 15px; /* Увеличенный padding */
+    background-color: #ff6b6b; /* Яркий цвет кнопки */
+    color: #ffffff; /* Цвет текста */
+    font-weight: bold; /* Жирный текст */
+    border-radius: 10px; /* Скругление углов */
+    margin-top: 20px; /* Отступ сверху */
+    transition: background-color 0.3s, transform 0.2s; /* Анимация */
+}
+
+.btn.auth-btn:hover {
+    background-color: #ff4d4d; /* Изменение цвета при наведении */
+    transform: translateY(-3px); /* Подъем кнопки */
+}
+
+.authentication-footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 16px; /* Размер шрифта */
+}
+
+.authentication-footer a {
+    color: #ff6b6b; /* Цвет ссылки */
+    font-weight: bold; /* Жирный текст */
+    text-decoration: underline; /* Подчеркивание */
+}
+
+/* ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ*/
+
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    padding: 1rem;
+    overflow-y: auto;
+    width: 250px;
+    background: var(--color-primary:);
+    min-height: 100vh;
+    padding: 1rem;
+}
+
+.nav-link-profile {
+    color: var(--color-primary);
+     display: block; /* Каждая ссылка будет занимать отдельную строку */
+    color: #fff;
+    padding: 0.5rem 1rem;
+    text-decoration: none; /* Убрать подчёркивание */
+    background-color: #6f42c1; /* Фиолетовый фон */
+    border-radius: 0.25rem; /* Слегка закруглённые углы */
+    margin: 0.5rem 0; /* Отступ между ссылками */
+    transition: background-color 0.3s ease;
+}
+
+.nav-link-profile:hover {
+    color: var(--color-hero-gradient-end);
+}
+.nav-link-profile.active, .nav-link-profile:hover {
+    background-color:  var(--color-primary);
+}
+.profile-content {
+    flex: 1;
+    padding: 2rem;
+    background-color: var(--color-secondary);
+}
+
+.user-info {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.profile-photo-container {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+.profile-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--color-primary);
+}
+
+.btn-change-photo {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 0.3rem 0.6rem;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-change-photo:hover {
+    background-color: var(--color-hero-gradient-middle1);
+}
+
+.user-rating {
+    font-size: 1.5rem;
+    color: var(--color-primary);
+}
+
+.training-archive {
+    background-color: var(--color-footer-gradient-middle);
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.training-archive h3 {
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+}
+
+.training-archive ul {
+    list-style: none;
+    padding: 0;
+}
+
+.training-archive li {
+    background-color: var(--color-secondary);
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 5px;
+    color: var(--color-primary);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.actions {
+    text-align: center;
+    margin-top: 2rem;
+}
+.user-bio {
+  background-color: #fff; /* Цвет фона */
+  border-radius: 10px; /* Скругление углов */
+  padding: 1rem; /* Внутренний отступ */
+  margin-top: 1rem; /* Отступ сверху */
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1); /* Тень */
+}
+
+.user-bio textarea {
+  width: 100%; /* Ширина поля */
+  border: 2px solid var(--color-primary); /* Граница с цветом основной темы */
+  border-radius: 5px; /* Скругление углов */
+  padding: 0.5rem; /* Внутренний отступ */
+  margin-bottom: 1rem; /* Отступ снизу */
+}
+
+.user-bio button {
+  padding: 0.5rem 1rem; /* Внутренний отступ */
+  border-radius: 5px; /* Скругление углов */
+  border: none; /* Без рамки */
+  background-color: var(--color-primary); /* Цвет фона */
+  color: #fff; /* Цвет текста */
+  cursor: pointer; /* Курсор в виде указателя */
+  transition: background-color 0.3s; /* Анимация фона */
+}
+
+.user-bio button:hover {
+  background-color: var(--color-hero-gradient-middle1); /* Цвет фона при наведении */
+}
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+    }
+}
+
+.brand-image {
+    background: url("../img/Лого.png");
+    width: 50px;
+    height: 50px;
+}
