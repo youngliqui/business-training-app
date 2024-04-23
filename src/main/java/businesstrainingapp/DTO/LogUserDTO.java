@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Schema(description = "Логирование пользователя")
-public class LongUserDTO {
+public class LogUserDTO {
     @Schema(description = "Электронная почта пользователя")
     private String email;
 

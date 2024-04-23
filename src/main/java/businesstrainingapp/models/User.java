@@ -29,6 +29,9 @@ public class User {
     private String password;
     private String email;
 
+    @Column(length = 1000)
+    private String description;
+
     @Enumerated(EnumType.STRING)
     private Role role;
     @CreationTimestamp

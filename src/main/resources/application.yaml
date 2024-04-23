@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: business-training-app
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 10MB
+  datasource:
+    username: admin
+    password: 122148
+    url: jdbc:postgresql://localhost:5432/business_training_db
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop

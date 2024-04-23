@@ -1,5 +1,5 @@
 package businesstrainingapp.models.Enums;
 
 public enum Role {
-    USER, MANAGER, SPEAKER
+    USER, MANAGER, SPEAKER, ADMIN
 }

@@ -13,14 +13,16 @@ import lombok.NoArgsConstructor;
 @Schema(description = "Обновление профиля пользователя")
 public class UpdationUserDTO {
     @Schema(description = "Новое имя пользователя")
-    private String name;
+    private String username;
 
     @Schema(description = "Новая эл. почта пользователя")
     private String email;
 
+    @Schema(description = "Текущий пароль")
+    private String currentPassword;
     @Schema(description = "Новый пароль")
-    private String password;
+    private String newPassword;
 
-    @Schema(description = "Подтверждение пароля")
-    private String matchingPassword;
+    @Schema(description = "Подтверждение нового пароля")
+    private String matchingNewPassword;
 }
