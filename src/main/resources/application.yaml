@@ -4,7 +4,7 @@ spring:
   servlet:
     multipart:
       max-file-size: 5MB
-      max-request-size: 10MB
+      max-request-size: 5MB
   datasource:
     username: admin
     password: 122148
@@ -13,3 +13,12 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create-drop
+  flyway:
+    baseline-on-migrate: false
+springdoc:
+  swagger-ui:
+    path: /api-docs
+    enabled: true
+  show-login-endpoint: true
+  show-actuator: true
+

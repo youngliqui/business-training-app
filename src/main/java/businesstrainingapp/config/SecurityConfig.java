@@ -1,10 +1,12 @@
 package businesstrainingapp.config;
 
+import businesstrainingapp.repositories.UserRepository;
 import businesstrainingapp.servicesImpl.MyUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -20,8 +22,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SecurityConfig {
     @Bean
-    public UserDetailsService userDetailsService() {
-        return new MyUserDetailsService();
+    public UserDetailsService userDetailsService(UserRepository userRepository) {
+        return new MyUserDetailsService(userRepository);
     }
 
     @Bean
@@ -30,9 +32,9 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService());
+    public AuthenticationProvider authenticationProvider(UserRepository userRepository) {
+        var provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userDetailsService(userRepository));
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
@@ -40,9 +42,18 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.requestMatchers("").permitAll()
-                        .requestMatchers("").authenticated())
+                .authorizeHttpRequests(auth -> auth//.requestMatchers("/api-docs")
+                        //.hasAnyAuthority(Role.ADMIN.name())
+                        .anyRequest().permitAll()
+                )
+                .httpBasic(Customizer.withDefaults())
                 .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
+                //.logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                //        .clearAuthentication(true)
+                //        .logoutSuccessUrl("/").deleteCookies("JSESSONID")
+                //        .invalidateHttpSession(true)
+                //)
+                .cors(AbstractHttpConfigurer::disable)
                 .build();
     }
 }

@@ -2,6 +2,7 @@ package businesstrainingapp.servicesImpl;
 
 import businesstrainingapp.exceptions.ImageNotFoundException;
 import businesstrainingapp.models.Image;
+import businesstrainingapp.models.User;
 import businesstrainingapp.repositories.ImageRepository;
 import businesstrainingapp.services.ImageService;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
+    @Transactional
     public Image save(MultipartFile file) throws Exception {
         if (imageRepository.existsByFilename(file.getOriginalFilename())) {
             log.info("Image {} have already existed", file.getOriginalFilename());
@@ -42,6 +44,24 @@ public class ImageServiceImpl implements ImageService {
                 .filename(file.getOriginalFilename())
                 .mimeType(file.getContentType())
                 .data(file.getBytes())
+                .build();
+
+        return imageRepository.save(image);
+    }
+
+    @Override
+    @Transactional
+    public Image save(MultipartFile file, User user) throws Exception {
+        if (imageRepository.existsByFilename(file.getOriginalFilename())) {
+            log.info("Image {} have already existed", file.getOriginalFilename());
+            return Image.builder().filename(file.getOriginalFilename()).build();
+        }
+
+        var image = Image.builder()
+                .filename(file.getOriginalFilename())
+                .mimeType(file.getContentType())
+                .data(file.getBytes())
+                .user(user)
                 .build();
 
         return imageRepository.save(image);

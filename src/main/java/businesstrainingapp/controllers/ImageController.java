@@ -2,6 +2,8 @@ package businesstrainingapp.controllers;
 
 import businesstrainingapp.DTO.ImageSaveResult;
 import businesstrainingapp.services.ImageService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/images")
 @Tag(name = "Изображения", description = "методы для работы с изображениями")
+@SecurityRequirement(name = "basicAuth")
 @Slf4j
 public class ImageController {
     private final ImageService imageService;
@@ -29,6 +32,7 @@ public class ImageController {
     }
 
     @GetMapping("/db/{filename}")
+    @Operation(summary = "Извлечь изображение по названию")
     public ResponseEntity<Resource> retrieve(@PathVariable String filename) {
         var image = imageService.getImage(filename);
         var body = new ByteArrayResource(image.getData());
@@ -39,6 +43,7 @@ public class ImageController {
     }
 
     @PostMapping("/db/upload")
+    @Operation(summary = "Загрузить изображение в БД")
     public ImageSaveResult upload(@RequestPart MultipartFile file) {
         try {
             var image = imageService.save(file);
@@ -54,6 +59,7 @@ public class ImageController {
     }
 
     @PostMapping("/db/upload_multi")
+    @Operation(summary = "Загрузка нескольких изображений в БД")
     public List<ImageSaveResult> uploadMulti(@RequestPart List<MultipartFile> files) {
         return files.stream()
                 .map(this::upload)
