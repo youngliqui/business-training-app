@@ -127,4 +127,29 @@ public class UserController {
         }
     }
 
+    @PatchMapping("/{id}/block")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @Operation(summary = "Блокирование пользователя по id")
+    public ResponseEntity<Void> blockUserById(@PathVariable("id") Long userId) {
+        userService.blockUserById(userId);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PatchMapping("/{id}/unblock")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @Operation(summary = "Разблокирование пользователя по id")
+    public ResponseEntity<Void> unblockUserById(@PathVariable("id") Long userId) {
+        userService.unblockUserById(userId);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @GetMapping("/blocks")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @Operation(summary = "Получение всех заблокированных пользователей")
+    public List<UserInfoDTO> getAllBlockedUsers() {
+        return userService.getBlockedUsers();
+    }
+
 }

@@ -46,4 +46,5 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Image profileImage;
+    private Boolean isBlocked;
 }

@@ -1,9 +1,9 @@
 package businesstrainingapp.servicesImpl;
 
+import businesstrainingapp.exceptions.BlockedUserLoginException;
 import businesstrainingapp.exceptions.UserNotFoundException;
 import businesstrainingapp.models.User;
 import businesstrainingapp.repositories.UserRepository;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -31,6 +31,10 @@ public class MyUserDetailsService implements UserDetailsService {
         User user = userRepository.findByName(username).orElseThrow(
                 () -> new UserNotFoundException("user with username - " + username + " was not found")
         );
+
+        if (user.getIsBlocked()) {
+            throw new BlockedUserLoginException("you are blocked");
+        }
 
         List<GrantedAuthority> roles = new ArrayList<>();
         roles.add(new SimpleGrantedAuthority(user.getRole().name()));

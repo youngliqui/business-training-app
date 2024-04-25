@@ -24,6 +24,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(responseBody(ex), HttpStatus.FORBIDDEN);
     }
 
+    @ExceptionHandler(BlockedUserLoginException.class)
+    public ResponseEntity<ErrorResponse> handleBlockedUserException(BlockedUserLoginException ex) {
+        return new ResponseEntity<>(responseBody(ex), HttpStatus.FORBIDDEN);
+    }
+
     private ErrorResponse responseBody(Exception ex) {
         return new ErrorResponse(
                 ex.getMessage(),

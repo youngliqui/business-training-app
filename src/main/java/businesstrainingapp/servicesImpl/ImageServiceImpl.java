@@ -64,6 +64,8 @@ public class ImageServiceImpl implements ImageService {
                 .user(user)
                 .build();
 
+        user.setProfileImage(image);
+
         return imageRepository.save(image);
     }
 }

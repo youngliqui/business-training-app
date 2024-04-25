@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
 import java.util.List;
@@ -46,6 +47,7 @@ public class UserServiceImpl implements UserService {
                 .name(userDTO.getName())
                 .email(userDTO.getEmail())
                 .password(passwordEncoder.encode(userDTO.getPassword()))
+                .isBlocked(false)
                 .build();
 
         if (userDTO.getRole().equals("trainer")) {
@@ -81,7 +83,9 @@ public class UserServiceImpl implements UserService {
 
         return ProfileUserDTO.builder()
                 .description(user.getDescription())
-                .image(user.getProfileImage())
+                .imageLink(ServletUriComponentsBuilder.fromCurrentRequest()
+                        .replacePath("/images/db/" + user.getProfileImage().getFilename())
+                        .toUriString())
                 .rating(user.getRating())
                 .trainingArchive(trainingNames)
                 .build();
@@ -100,7 +104,9 @@ public class UserServiceImpl implements UserService {
         return ProfileUserDTO.builder()
                 .username(user.getName())
                 .description(user.getDescription())
-                .image(user.getProfileImage())
+                .imageLink(ServletUriComponentsBuilder.fromCurrentRequest()
+                        .replacePath("/images/db/" + user.getProfileImage().getFilename())
+                        .toUriString())
                 .rating(user.getRating())
                 .trainingArchive(trainingNames)
                 .build();
@@ -147,7 +153,9 @@ public class UserServiceImpl implements UserService {
         return ProfileUserDTO.builder()
                 .username(user.getName())
                 .description(user.getDescription())
-                .image(user.getProfileImage())
+                .imageLink(ServletUriComponentsBuilder.fromCurrentRequest()
+                        .replacePath("/images/db/" + user.getProfileImage().getFilename())
+                        .toUriString())
                 .rating(user.getRating())
                 .trainingArchive(user.getTrainings().stream()
                         .map(training -> training.getTitle() + " - " + training.getDate())
@@ -196,15 +204,17 @@ public class UserServiceImpl implements UserService {
                     .data(file.getBytes())
                     .user(user)
                     .build();
-            imageRepository.save(image);
         }
+        imageRepository.save(image);
 
         user.setProfileImage(image);
         userRepository.save(user);
 
         return ProfileUserDTO.builder()
                 .description(user.getDescription())
-                .image(user.getProfileImage())
+                .imageLink(ServletUriComponentsBuilder.fromCurrentRequest()
+                        .replacePath("/images/db/" + user.getProfileImage().getFilename())
+                        .toUriString())
                 .rating(user.getRating())
                 .trainingArchive(user.getTrainings().stream()
                         .map(training -> training.getTitle() + " - " + training.getDate())
@@ -224,7 +234,9 @@ public class UserServiceImpl implements UserService {
 
         return ProfileUserDTO.builder()
                 .description(description)
-                .image(user.getProfileImage())
+                .imageLink(ServletUriComponentsBuilder.fromCurrentRequest()
+                        .replacePath("/images/db/" + user.getProfileImage().getFilename())
+                        .toUriString())
                 .rating(user.getRating())
                 .trainingArchive(user.getTrainings().stream()
                         .map(training -> training.getTitle() + " - " + training.getDate())
@@ -244,6 +256,43 @@ public class UserServiceImpl implements UserService {
                 .email(user.getEmail())
                 .id(user.getId())
                 .build();
+    }
+
+    @Override
+    @Transactional
+    public void blockUserById(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new UserNotFoundException("user with id - " + userId + " was not found")
+        );
+
+        if (!user.getIsBlocked()) {
+            user.setIsBlocked(true);
+            userRepository.save(user);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void unblockUserById(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new UserNotFoundException("user with id - " + userId + " was not found")
+        );
+
+        if (user.getIsBlocked()) {
+            user.setIsBlocked(false);
+            userRepository.save(user);
+        }
+    }
+
+    @Override
+    public List<UserInfoDTO> getBlockedUsers() {
+        return userRepository.findUserByIsBlockedTrue().stream()
+                .map(user -> UserInfoDTO.builder()
+                        .name(user.getName())
+                        .role(user.getRole().name())
+                        .email(user.getEmail())
+                        .id(user.getId())
+                        .build()).collect(Collectors.toList());
     }
 
 
