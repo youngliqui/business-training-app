@@ -6,6 +6,7 @@ import businesstrainingapp.DTO.UpdationUserDTO;
 import businesstrainingapp.DTO.UserInfoDTO;
 import businesstrainingapp.exceptions.PasswordNotMatchException;
 import businesstrainingapp.exceptions.UserNotFoundException;
+import businesstrainingapp.mappers.UserMapper;
 import businesstrainingapp.models.Enums.Role;
 import businesstrainingapp.models.Image;
 import businesstrainingapp.models.User;
@@ -18,12 +19,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 @Component
@@ -32,6 +31,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ImageRepository imageRepository;
     private final PasswordEncoder passwordEncoder;
+
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, ImageRepository imageRepository, PasswordEncoder passwordEncoder) {
@@ -55,20 +55,12 @@ public class UserServiceImpl implements UserService {
         } else {
             user.setRole(Role.USER);
         }
-
         userRepository.save(user);
     }
 
     @Override
     public List<UserInfoDTO> getAll() {
-        return userRepository.findAll().stream()
-                .map(user -> UserInfoDTO.builder()
-                        .id(user.getId())
-                        .name(user.getName())
-                        .email(user.getEmail())
-                        .role(user.getRole().name())
-                        .build())
-                .collect(Collectors.toList());
+        return UserMapper.USER_MAPPER.toListUserInfoDTO(userRepository.findAll());
     }
 
     @Override
@@ -81,14 +73,7 @@ public class UserServiceImpl implements UserService {
                 .map(training -> training.getTitle() + " - " + training.getDate())
                 .toList();
 
-        return ProfileUserDTO.builder()
-                .description(user.getDescription())
-                .imageLink(ServletUriComponentsBuilder.fromCurrentRequest()
-                        .replacePath("/images/db/" + user.getProfileImage().getFilename())
-                        .toUriString())
-                .rating(user.getRating())
-                .trainingArchive(trainingNames)
-                .build();
+        return UserMapper.USER_MAPPER.toProfileUserDTO(user);
     }
 
     @Override
@@ -101,15 +86,7 @@ public class UserServiceImpl implements UserService {
                 .map(training -> training.getTitle() + " - " + training.getDate())
                 .toList();
 
-        return ProfileUserDTO.builder()
-                .username(user.getName())
-                .description(user.getDescription())
-                .imageLink(ServletUriComponentsBuilder.fromCurrentRequest()
-                        .replacePath("/images/db/" + user.getProfileImage().getFilename())
-                        .toUriString())
-                .rating(user.getRating())
-                .trainingArchive(trainingNames)
-                .build();
+        return UserMapper.USER_MAPPER.toProfileUserDTO(user);
     }
 
     @Override
@@ -150,17 +127,7 @@ public class UserServiceImpl implements UserService {
             userRepository.save(user);
         }
 
-        return ProfileUserDTO.builder()
-                .username(user.getName())
-                .description(user.getDescription())
-                .imageLink(ServletUriComponentsBuilder.fromCurrentRequest()
-                        .replacePath("/images/db/" + user.getProfileImage().getFilename())
-                        .toUriString())
-                .rating(user.getRating())
-                .trainingArchive(user.getTrainings().stream()
-                        .map(training -> training.getTitle() + " - " + training.getDate())
-                        .toList())
-                .build();
+        return UserMapper.USER_MAPPER.toProfileUserDTO(user);
     }
 
     @Override
@@ -210,16 +177,7 @@ public class UserServiceImpl implements UserService {
         user.setProfileImage(image);
         userRepository.save(user);
 
-        return ProfileUserDTO.builder()
-                .description(user.getDescription())
-                .imageLink(ServletUriComponentsBuilder.fromCurrentRequest()
-                        .replacePath("/images/db/" + user.getProfileImage().getFilename())
-                        .toUriString())
-                .rating(user.getRating())
-                .trainingArchive(user.getTrainings().stream()
-                        .map(training -> training.getTitle() + " - " + training.getDate())
-                        .toList())
-                .build();
+        return UserMapper.USER_MAPPER.toProfileUserDTO(user);
     }
 
     @Override
@@ -232,16 +190,7 @@ public class UserServiceImpl implements UserService {
         user.setDescription(description);
         userRepository.save(user);
 
-        return ProfileUserDTO.builder()
-                .description(description)
-                .imageLink(ServletUriComponentsBuilder.fromCurrentRequest()
-                        .replacePath("/images/db/" + user.getProfileImage().getFilename())
-                        .toUriString())
-                .rating(user.getRating())
-                .trainingArchive(user.getTrainings().stream()
-                        .map(training -> training.getTitle() + " - " + training.getDate())
-                        .toList())
-                .build();
+        return UserMapper.USER_MAPPER.toProfileUserDTO(user);
     }
 
     @Override
@@ -250,12 +199,7 @@ public class UserServiceImpl implements UserService {
                 () -> new UserNotFoundException("user with id - " + id + " was not found")
         );
 
-        return UserInfoDTO.builder()
-                .name(user.getName())
-                .role(user.getRole().name())
-                .email(user.getEmail())
-                .id(user.getId())
-                .build();
+        return UserMapper.USER_MAPPER.toUserInfoDTO(user);
     }
 
     @Override
@@ -286,13 +230,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserInfoDTO> getBlockedUsers() {
-        return userRepository.findUserByIsBlockedTrue().stream()
-                .map(user -> UserInfoDTO.builder()
-                        .name(user.getName())
-                        .role(user.getRole().name())
-                        .email(user.getEmail())
-                        .id(user.getId())
-                        .build()).collect(Collectors.toList());
+        return UserMapper.USER_MAPPER.toListUserInfoDTO(userRepository.findUsersByIsBlockedTrue());
     }
 
 
