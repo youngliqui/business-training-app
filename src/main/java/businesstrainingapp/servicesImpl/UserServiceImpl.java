@@ -69,10 +69,6 @@ public class UserServiceImpl implements UserService {
                 () -> new UserNotFoundException("user with id - " + id + " was not found")
         );
 
-        List<String> trainingNames = user.getTrainings().stream()
-                .map(training -> training.getTitle() + " - " + training.getDate())
-                .toList();
-
         return UserMapper.USER_MAPPER.toProfileUserDTO(user);
     }
 
@@ -81,10 +77,6 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByName(name).orElseThrow(
                 () -> new UserNotFoundException("user with name - " + name + " was not found")
         );
-
-        List<String> trainingNames = user.getTrainings().stream()
-                .map(training -> training.getTitle() + " - " + training.getDate())
-                .toList();
 
         return UserMapper.USER_MAPPER.toProfileUserDTO(user);
     }

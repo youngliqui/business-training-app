@@ -30,7 +30,7 @@ public interface UserMapper {
     @Named("mapTrainingsToTrainingNames")
     default List<String> mapTrainingsToTrainingNames(List<Training> trainings) {
         return trainings.stream()
-                .map(training -> training.getTitle() + " - " + training.getDate())
+                .map(training -> training.getTopic() + " - " + training.getDateTime())
                 .collect(Collectors.toList());
     }
 
