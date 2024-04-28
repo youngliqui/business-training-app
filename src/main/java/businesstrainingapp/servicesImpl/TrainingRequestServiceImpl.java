@@ -60,6 +60,7 @@ public class TrainingRequestServiceImpl implements TrainingRequestService {
         );
 
         Training training = TrainingMapper.TRAINING_MAPPER.toTraining(trainingRequest);
+        training.setAvailable(true);
 
         trainingRepository.save(training);
         trainingRequestRepository.delete(trainingRequest);

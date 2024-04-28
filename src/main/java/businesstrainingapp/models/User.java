@@ -10,6 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -39,12 +40,37 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    private Integer rating;
+    private Float rating;
+    private Integer ratesAmount;
 
     @OneToMany(mappedBy = "trainer", cascade = CascadeType.ALL)
-    private List<Training> trainings;
+    private List<Training> trainerTrainings;
+
+    @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
+    private List<Training> userTrainings;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Image profileImage;
     private Boolean isBlocked;
+
+    public void addRate(Integer rate) {
+        if (rating == null) {
+            rating = Float.valueOf(rate);
+        } else {
+            rating = ((rating * ratesAmount) + rate) / (ratesAmount + 1);
+        }
+        ratesAmount++;
+    }
+
+    public void addUserTraining(Training training) {
+        if (userTrainings == null) {
+            userTrainings = new ArrayList<>();
+        }
+
+        userTrainings.add(training);
+    }
+
+    public void addTrainerTraining(Training training) {
+        trainerTrainings.add(training);
+    }
 }

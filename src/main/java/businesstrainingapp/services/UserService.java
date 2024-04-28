@@ -35,4 +35,6 @@ public interface UserService {
     void unblockUserById(Long userId);
 
     List<UserInfoDTO> getBlockedUsers();
+
+    void ratingUser(Long userId, Integer rating, String trainerName);
 }

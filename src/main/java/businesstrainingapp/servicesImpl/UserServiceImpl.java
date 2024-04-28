@@ -48,6 +48,7 @@ public class UserServiceImpl implements UserService {
                 .email(userDTO.getEmail())
                 .password(passwordEncoder.encode(userDTO.getPassword()))
                 .isBlocked(false)
+                .ratesAmount(0)
                 .build();
 
         if (userDTO.getRole().equals("trainer")) {
@@ -225,5 +226,31 @@ public class UserServiceImpl implements UserService {
         return UserMapper.USER_MAPPER.toListUserInfoDTO(userRepository.findUsersByIsBlockedTrue());
     }
 
+
+    @Override
+    @Transactional
+    public void ratingUser(Long userId, Integer rating, String trainerName) {
+        if (!(rating <= 5 && rating >= 1)) {
+            throw new IllegalArgumentException("rating should be from 0 to 5");
+        }
+
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new UserNotFoundException("user with id - " + userId + " was not found")
+        );
+
+        User trainer = userRepository.findByName(trainerName).orElseThrow(
+                () -> new UserNotFoundException("user with name - " + trainerName + " was not found")
+        );
+
+        if (!userRepository.existsByTrainingsTrainerIdAndUserId(userId, trainer.getId())) {
+            throw new UserNotFoundException("training with trainer - " + trainerName +
+                    " was not found for user with id " + userId
+            );
+        }
+
+        user.addRate(rating);
+
+        userRepository.save(user);
+    }
 
 }

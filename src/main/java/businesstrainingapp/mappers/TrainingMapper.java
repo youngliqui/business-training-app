@@ -1,6 +1,7 @@
 package businesstrainingapp.mappers;
 
 import businesstrainingapp.DTO.ApplicationTrainingDTO;
+import businesstrainingapp.DTO.TrainingInfoDTO;
 import businesstrainingapp.DTO.TrainingRequestInfoDTO;
 import businesstrainingapp.models.Training;
 import businesstrainingapp.models.TrainingRequest;
@@ -22,7 +23,6 @@ public interface TrainingMapper {
     List<TrainingRequestInfoDTO> toListTrainingRequestsInfoDTO(List<TrainingRequest> trainingRequests);
 
     @Mapping(target = "dateTime", source = "dateTime", dateFormat = "yyyy-MM-dd HH:mm")
-    @Mapping(target = "trainer", source = "trainer")
     TrainingRequest toTrainingRequest(ApplicationTrainingDTO trainingDTO);
 
     @Named("mapTrainerToTrainerName")
@@ -31,4 +31,9 @@ public interface TrainingMapper {
     }
 
     Training toTraining(TrainingRequest trainingRequest);
+
+    @Mapping(target = "trainerName", source = "trainer", qualifiedByName = "mapTrainerToTrainerName")
+    TrainingInfoDTO toTrainingInfoDTO(Training training);
+
+    List<TrainingInfoDTO> toListTrainingInfoDTO(List<Training> trainings);
 }

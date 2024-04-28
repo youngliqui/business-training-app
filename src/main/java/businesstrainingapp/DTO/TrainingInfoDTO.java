@@ -12,12 +12,14 @@ import lombok.NoArgsConstructor;
 @Builder
 @Schema(description = "Информация о тренинге")
 public class TrainingInfoDTO {
-    @Schema(description = "Название")
-    private String title;
+    @Schema(description = "Id тренинга")
+    private Long id;
+    @Schema(description = "Тема")
+    private String topic;
     @Schema(description = "Имя тренера")
     private String trainerName;
     @Schema(description = "Дата проведения")
-    private String date;
-    @Schema(description = "Отрасль")
-    private String field;
+    private String dateTime;
+    @Schema(description = "Описание")
+    private String description;
 }

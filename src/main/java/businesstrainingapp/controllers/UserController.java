@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
@@ -150,6 +151,21 @@ public class UserController {
     @Operation(summary = "Получение всех заблокированных пользователей")
     public List<UserInfoDTO> getAllBlockedUsers() {
         return userService.getBlockedUsers();
+    }
+
+    @PostMapping("/{id}/rating")
+    @PreAuthorize("hasAuthority('TRAINER')")
+    @Operation(summary = "выставление оценки пользователю")
+    public ResponseEntity<Void> rateUser(@PathVariable("id") Long userId, @RequestBody Map<String, Integer> rating,
+                                         Principal principal) {
+
+        if (principal == null) {
+            throw new UserNotAuthorizeException("you are not authorize");
+        }
+
+        userService.ratingUser(userId, rating.get("rate"), principal.getName());
+
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 }

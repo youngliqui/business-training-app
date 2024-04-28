@@ -3,7 +3,6 @@ package businesstrainingapp.controllers;
 import businesstrainingapp.DTO.ApplicationTrainingDTO;
 import businesstrainingapp.DTO.TrainingRequestInfoDTO;
 import businesstrainingapp.exceptions.UserNotAuthorizeException;
-import businesstrainingapp.models.TrainingRequest;
 import businesstrainingapp.services.TrainingRequestService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -40,7 +39,7 @@ public class TrainingRequestController {
     @PreAuthorize("hasAnyAuthority('TRAINER')")
     @Operation(summary = "Создание заявки на тренинг")
     public ResponseEntity<Void> createTrainingRequest(@RequestBody ApplicationTrainingDTO applicationTrainingDTO,
-                                                                 Principal principal) {
+                                                      Principal principal) {
         if (principal == null) {
             throw new UserNotAuthorizeException("you are not authorize");
         }
