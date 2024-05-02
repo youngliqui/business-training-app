@@ -11,18 +11,21 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "images")
-public class Image {
-    private static final String SEQ_NAME = "image_seq";
+@Table(name = "homeworks")
+public class HomeworkEntity {
+    private static final String SEQ_NAME = "homework_seq";
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
     @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME, allocationSize = 1)
     private Long id;
-    private String filename;
-    @Column(name = "mime_type")
-    private String mimeType;
+    @Lob
     private byte[] data;
-    @OneToOne
+    private String filename;
+    private String extensionFile;
+    @ManyToOne
+    @JoinColumn(name = "training_id")
+    private Training training;
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 }

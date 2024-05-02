@@ -3,6 +3,7 @@ package businesstrainingapp.services;
 import businesstrainingapp.DTO.SignUpForTraining;
 import businesstrainingapp.DTO.TrainingInfoDTO;
 import businesstrainingapp.DTO.UserInfoDTO;
+import businesstrainingapp.models.Training;
 
 import java.util.List;
 
@@ -14,4 +15,12 @@ public interface TrainingService {
     void updateTrainingAvailability();
 
     void registrationForTraining(Long trainingId, String username, SignUpForTraining signUpForTraining);
+
+    Training getTrainingById(Long trainingId);
+
+    boolean checkTrainer(String trainerName, Training training);
+
+    boolean checkUser(String username, Long trainingId);
+
+    void cancelTrainingAppointment(Long trainingId, String username);
 }

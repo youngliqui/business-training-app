@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Schema(description = "Логирование пользователя")
+@Schema(description = "Информация о заявке на тренинг")
 public class TrainingRequestInfoDTO {
     @Schema(description = "Id заявки на тренинг")
     private Long id;
@@ -22,5 +22,9 @@ public class TrainingRequestInfoDTO {
     private String dateTime;
     @Schema(description = "Имя тренера")
     private String trainerName;
+    @Schema(description = "Цена тренинга")
+    private Float price;
+    @Schema(description = "Кол-во мест в группе")
+    private Integer totalSeats;
 
 }

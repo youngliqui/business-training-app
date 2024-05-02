@@ -1,9 +1,6 @@
 package businesstrainingapp.controllers;
 
-import businesstrainingapp.DTO.ProfileUserDTO;
-import businesstrainingapp.DTO.RegistrationUserDTO;
-import businesstrainingapp.DTO.UpdationUserDTO;
-import businesstrainingapp.DTO.UserInfoDTO;
+import businesstrainingapp.DTO.*;
 import businesstrainingapp.exceptions.UserNotAuthorizeException;
 import businesstrainingapp.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -168,4 +165,17 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @PostMapping("/trainer")
+    @PreAuthorize("hasAuthority('USER')")
+    @Operation(summary = "Функция \"стать тренером\"")
+    public ResponseEntity<Void> becomeTrainer(Principal principal, @RequestBody CoachBecomingDTO coachBecomingDTO) {
+
+        if (principal == null) {
+            throw new UserNotAuthorizeException("you are not authorize");
+        }
+
+        // написать логику функции заявки пользователя, чтобы стать тренером
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }

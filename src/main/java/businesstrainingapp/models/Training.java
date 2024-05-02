@@ -41,7 +41,15 @@ public class Training {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> users;
 
+    @OneToMany(mappedBy = "training", cascade = CascadeType.ALL)
+    private List<MaterialEntity> materials;
+
+    @OneToMany(mappedBy = "training", cascade = CascadeType.ALL)
+    private List<HomeworkEntity> homeworks;
+
+    private float price;
     private int usersAmount;
+    private int totalSeats;
     private boolean available;
 
     public void addUser(User user) {
@@ -51,5 +59,24 @@ public class Training {
 
         users.add(user);
         usersAmount++;
+    }
+
+    public void deleteUser(User user) {
+        users.remove(user);
+        usersAmount--;
+    }
+
+    public void addMaterial(MaterialEntity materialEntity) {
+        if (materialEntity == null) {
+            materials = new ArrayList<>();
+        }
+        materials.add(materialEntity);
+    }
+
+    public void addHomework(HomeworkEntity homework) {
+        if (homeworks == null) {
+            homeworks = new ArrayList<>();
+        }
+        homeworks.add(homework);
     }
 }

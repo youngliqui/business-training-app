@@ -49,6 +49,9 @@ public class User {
     @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
     private List<Training> userTrainings;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<HomeworkEntity> homeworks;
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Image profileImage;
     private Boolean isBlocked;
@@ -66,11 +69,20 @@ public class User {
         if (userTrainings == null) {
             userTrainings = new ArrayList<>();
         }
-
         userTrainings.add(training);
     }
 
     public void addTrainerTraining(Training training) {
+        if (trainerTrainings == null) {
+            trainerTrainings = new ArrayList<>();
+        }
         trainerTrainings.add(training);
+    }
+
+    public void addHomework(HomeworkEntity homework) {
+        if (homeworks == null) {
+            homeworks = new ArrayList<>();
+        }
+        homeworks.add(homework);
     }
 }

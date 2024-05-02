@@ -32,4 +32,7 @@ public class TrainingRequest {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trainer_id")
     private User trainer;
+
+    private Float price;
+    private Integer totalSeats;
 }

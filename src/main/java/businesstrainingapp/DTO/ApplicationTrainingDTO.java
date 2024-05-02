@@ -25,6 +25,12 @@ public class ApplicationTrainingDTO {
     @Schema(description = "Описание тренинга")
     private String description;
 
+    @Schema(description = "цена тренинга")
+    private Float price;
+
+    @Schema(description = "кол-во мест в группе")
+    private Integer totalSeats;
+
     @JsonIgnore
     private User trainer;
 }

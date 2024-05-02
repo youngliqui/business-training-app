@@ -3,6 +3,7 @@ package businesstrainingapp.servicesImpl;
 import businesstrainingapp.DTO.SignUpForTraining;
 import businesstrainingapp.DTO.TrainingInfoDTO;
 import businesstrainingapp.DTO.UserInfoDTO;
+import businesstrainingapp.exceptions.TrainingFullException;
 import businesstrainingapp.exceptions.TrainingNotFoundException;
 import businesstrainingapp.exceptions.UserNotFoundException;
 import businesstrainingapp.mappers.TrainingMapper;
@@ -85,10 +86,13 @@ public class TrainingServiceImpl implements TrainingService {
                 () -> new TrainingNotFoundException("training with id - " + trainingId + " was not found")
         );
 
+        if (training.getUsersAmount() == training.getTotalSeats()) {
+            throw new TrainingFullException("Access to training denied. Group is full.");
+        }
+
         if (!training.isAvailable()) {
             throw new IllegalArgumentException("this training is not available");
         }
-
 
         if (user.getUserTrainings().contains(training)) {
             throw new IllegalArgumentException("you have already signed up for this training");
@@ -96,6 +100,50 @@ public class TrainingServiceImpl implements TrainingService {
 
         training.addUser(user);
         user.addUserTraining(training);
+
+        trainingRepository.save(training);
+        userRepository.save(user);
+    }
+
+    @Override
+    public Training getTrainingById(Long trainingId) {
+        return trainingRepository.findById(trainingId).orElseThrow(
+                () -> new TrainingNotFoundException("training with id - " + trainingId + " was not found")
+        );
+    }
+
+    @Override
+    public boolean checkTrainer(String trainerName, Training training) {
+        User trainer = userRepository.findByName(trainerName).orElseThrow(
+                () -> new UserNotFoundException("trainer with name - " + trainerName + " was not found")
+        );
+
+        User trainingTrainer = training.getTrainer();
+
+        return trainer.getId().equals(trainingTrainer.getId()) && trainer.getName().equals(trainingTrainer.getName());
+    }
+
+    @Override
+    public boolean checkUser(String username, Long trainingId) {
+        User user = userRepository.findByName(username).orElseThrow(
+                () -> new UserNotFoundException("user with name - " + username + " was not found")
+        );
+
+        return trainingRepository.existsByIdAndUsersId(trainingId, user.getId());
+    }
+
+    @Override
+    @Transactional
+    public void cancelTrainingAppointment(Long trainingId, String username) {
+        Training training = trainingRepository.findById(trainingId).orElseThrow(
+                () -> new TrainingNotFoundException("training with id - " + trainingId + " was not found")
+        );
+        User user = userRepository.findByName(username).orElseThrow(
+                () -> new UserNotFoundException("user with name - " + username + " was not found")
+        );
+
+        training.getUsers().remove(user);
+        user.getUserTrainings().remove(training);
 
         trainingRepository.save(training);
         userRepository.save(user);

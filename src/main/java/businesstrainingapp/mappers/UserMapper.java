@@ -19,7 +19,7 @@ public interface UserMapper {
     UserMapper USER_MAPPER = Mappers.getMapper(UserMapper.class);
 
     @Mapping(target = "username", source = "name")
-    @Mapping(target = "trainingArchive", source = "trainings", qualifiedByName = "mapTrainingsToTrainingNames")
+    @Mapping(target = "trainingArchive", source = "userTrainings", qualifiedByName = "mapTrainingsToTrainingNames")
     @Mapping(target = "imageLink", source = "profileImage", qualifiedByName = "mapImageToImageLink")
     ProfileUserDTO toProfileUserDTO(User user);
 

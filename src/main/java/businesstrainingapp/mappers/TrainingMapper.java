@@ -1,17 +1,14 @@
 package businesstrainingapp.mappers;
 
-import businesstrainingapp.DTO.ApplicationTrainingDTO;
-import businesstrainingapp.DTO.TrainingInfoDTO;
-import businesstrainingapp.DTO.TrainingRequestInfoDTO;
-import businesstrainingapp.models.Training;
-import businesstrainingapp.models.TrainingRequest;
-import businesstrainingapp.models.User;
+import businesstrainingapp.DTO.*;
+import businesstrainingapp.models.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Mapper
 public interface TrainingMapper {
@@ -36,4 +33,31 @@ public interface TrainingMapper {
     TrainingInfoDTO toTrainingInfoDTO(Training training);
 
     List<TrainingInfoDTO> toListTrainingInfoDTO(List<Training> trainings);
+
+
+    default TrainingInfoForTrainerDTO toTrainingForTrainerDTO(Training training) {
+        return TrainingInfoForTrainerDTO.builder()
+                .id(training.getId())
+                .topic(training.getTopic())
+                .usersAmount(training.getUsersAmount())
+                .finance(String.valueOf(training.getPrice() * training.getUsersAmount()))
+                .dateTime(String.valueOf(training.getDateTime()))
+                .seatsLeft(training.getTotalSeats() - training.getUsersAmount())
+                .materials(mapMaterialsToDTO(training.getMaterials()))
+                .build();
+    }
+
+    default List<MaterialInfoDTO> mapMaterialsToDTO(List<MaterialEntity> materials) {
+        return materials.stream().map(material -> MaterialInfoDTO.builder()
+                .data(material.getData())
+                .id(material.getId())
+                .filename(material.getFilename())
+                .build()
+        ).collect(Collectors.toList());
+    }
+
+    @Mapping(target = "username", source = "user", qualifiedByName = "mapTrainerToTrainerName")
+    HomeworkInfoDTO toHomeworkInfoDTO(HomeworkEntity homework);
+
+    List<HomeworkInfoDTO> toListHomeworkInfoDTO(List<HomeworkEntity> homeworks);
 }
