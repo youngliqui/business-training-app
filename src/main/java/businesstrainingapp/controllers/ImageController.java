@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("/images")
 @Tag(name = "Изображения", description = "методы для работы с изображениями")
 @SecurityRequirement(name = "basicAuth")

@@ -17,6 +17,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -54,7 +57,12 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/").deleteCookies("JSESSONID")
                         .invalidateHttpSession(true)
                 )
-                .cors(AbstractHttpConfigurer::disable)
+                .cors(cors -> {
+                    CorsConfiguration config = new CorsConfiguration();
+                    config.applyPermitDefaultValues();
+                    config.setAllowedOrigins(List.of("http://localhost:63342"));
+                    cors.configurationSource(request -> config);
+                })
                 .build();
     }
 }

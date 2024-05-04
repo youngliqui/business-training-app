@@ -20,6 +20,14 @@ public class TrainingInfoDTO {
     private String trainerName;
     @Schema(description = "Дата проведения")
     private String dateTime;
+    @Schema(description = "Отрасль")
+    private String branch;
     @Schema(description = "Описание")
     private String description;
+
+    @Schema(description = "Кол-во мест")
+    private String totalSeats;
+
+    @Schema(description = "Цена за вход")
+    private String price;
 }

@@ -3,82 +3,225 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Личный кабинет | Корпоративные Тренинги</title>
-  <link href="/css/bootstrap.min.css" rel="stylesheet">
-      <link rel="stylesheet" href="src/main/resources/static/css/style.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../CSS/style.css" />
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+    }
+
+    .training-details {
+      display: none;
+    }
+
+    .show-details {
+      display: block;
+    }
+
+    .training-controls {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .training-item {
+      background: #f0f0f0;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+
+    .btn-primary, .btn-info {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      color: white;
+      margin-right: 10px;
+    }
+
+    .btn-info {
+      background-color: #17a2b8;
+      color: white;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1050;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      min-width: 300px;
+      max-width: 500px;
+      width: 90%;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .modal form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal form label {
+      margin-top: 10px;
+      margin-bottom: 5px;
+    }
+
+    .modal form input {
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    .modal form button {
+      padding: 10px 15px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .modal form button:hover {
+      background-color: #0056b3;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1040;
+    }
+  </style>
 </head>
 <body>
 
-<header>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link active" href="/user-dashboard.html">Профиль</a></li>
-          <li class="nav-item"><a class="nav-link" href="/trainings">Список тренингов</a></li>
-          <li class="nav-item"><a class="nav-link" href="settings.html">Настройки</a></li>
-          <li class="nav-item"><a class="nav-link" href="/index.html">Выход</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-</header>
-
 <div class="dashboard-container">
-  <aside class="sidebar">
-    <nav class="nav flex-column">
-      <a class="nav-link-profile active" href="user-dashboard.html">Профиль</a>
-      <a class="nav-link-profile" href="trainings.html">Список тренингов</a>
-      <a class="nav-link-profile" href="/settings">Настройки</a>
-      <a class="nav-link-profile" href="/logout">Выход</a>
+   <aside class="sidebar">
+   <nav class="nav flex-column">
+      <a class="nav-link" href="user-dashboard.html">Профиль</a>
+      <a class="nav-link" href="trainings.html">Список тренингов</a>
+      <a class="nav-link" href="active.html">Активные тренинги</a>
+      <a class="nav-link" href="settings.html">Настройки</a>
+      <a class="nav-link" href="index.html">Выход</a>
     </nav>
   </aside>
 
-  <main class="profile-content">
-    <section class="user-info">
-      <div class="profile-photo-container">
-        <img src="src/main/resources/static/img/default-avatar.png" alt="Фото профиля" class="profile-photo">
-        <button class="btn-change-photo">Изменить фото</button>
-      </div>
-      <h2>Имя пользователя</h2>
-      <div class="user-rating">
-        <span>★</span><span>★</span><span>★</span><span>★</span><span>☆</span> <!-- Примерное отображение рейтинга -->
-      </div>
-    </section>
-<section class="user-bio">
-  <h3>О себе</h3>
-  <textarea id="bio" name="bio" rows="4" cols="50" placeholder="Расскажите о себе"></textarea>
-  <button onclick="editBio()">Редактировать</button>
-</section>
+   <main class="profile-content">
+     <h1>Список тренингов</h1>
 
-<script>
-function editBio() {
-  // Эта функция переключает возможность редактирования поля "О себе"
-  var bio = document.getElementById("bio");
-  if (bio.hasAttribute('readonly')) {
-    bio.removeAttribute('readonly');
-  } else {
-    bio.setAttribute('readonly', 'readonly');
-  }
-}
-</script>
-    <section class="training-archive">
-      <h3>Архив тренингов</h3>
-      <ul>
-        <li>Название тренинга</li> <!-- Примерное отображение списка тренингов -->
-      </ul>
-    </section>
+     <div class="training-controls">
+       <select id="sort-order">
+         <option value="nearest">Ближайшие даты</option>
+         <option value="farthest">Дальние даты</option>
+       </select>
 
-    <section class="actions">
-      <a href="#" class="btn btn-primary">Записаться на новый тренинг</a>
-    </section>
-  </main>
+       <select id="industry-filter">
+         <option value="all">Все отрасли</option>
+         <option value="management">Управление</option>
+         <option value="communication">Коммуникация</option>
+         <option value="leadership">Лидерство</option>
+         <option value="it">IT и Кибербезопасность</option>
+       </select>
+
+       <input type="text" id="trainer-search" placeholder="Поиск по тренеру" />
+       <input type="date" id="date-search" />
+     </div>
+
+     <div id="training-list">
+       <div class="training-item">
+         <h2>Эффективное управление командой</h2>
+         <p>Тренер: Иван Иванов</p>
+         <p>Дата: 2024-04-20</p>
+         <p>Отрасль: Управление персоналом</p>
+         <button class="btn btn-info" onclick="toggleDetails(this)">Подробнее</button>
+         <button class="btn btn-primary" onclick="openRegistrationModal()">Записаться</button>
+         <div class="training-details">
+           <p>Подробности тренинга: ...</p>
+         </div>
+       </div>
+       <div class="training-item">
+         <h2>Основы кибербезопасности</h2>
+         <p>Тренер: Мария Сидорова</p>
+         <p>Дата: 2024-05-15</p>
+         <p>Отрасль: IT и Кибербезопасность</p>
+         <button class="btn btn-info" onclick="toggleDetails(this)">Подробнее</button>
+         <button class="btn btn-primary" onclick="openRegistrationModal()">Записаться</button>
+         <div class="training-details">
+           <p>Подробности тренинга: ...</p>
+         </div>
+       </div>
+       <div class="training-item">
+         <h2>Эффективное коммуникативное взаимодействие</h2>
+         <p>Тренер: Ольга Петрова</p>
+         <p>Дата: 2024-06-10</p>
+         <p>Отрасль: Коммуникация</p>
+         <button class="btn btn-info" onclick="toggleDetails(this)">Подробнее</button>
+         <button class="btn btn-primary" onclick="openRegistrationModal()">Записаться</button>
+         <div class="training-details">
+           <p>Подробности тренинга: ...</p>
+         </div>
+       </div>
+       <div class="training-item">
+         <h2>Лидерство и мотивация персонала</h2>
+         <p>Тренер: Алексей Новиков</p>
+         <p>Дата: 2024-07-05</p>
+         <p>Отрасль: Лидерство</p>
+         <button class="btn btn-info" onclick="toggleDetails(this)">Подробнее</button>
+         <button class="btn btn-primary" onclick="openRegistrationModal()">Записаться</button>
+         <div class="training-details">
+           <p>Подробности тренинга: ...</p>
+         </div>
+       </div>
+     </div>
+
+     <div id="registration-modal" class="modal">
+       <form id="registration-form">
+         <label for="participant-name">Ваше имя:</label>
+         <input type="text" id="participant-name" required />
+         <label for="participant-email">Ваш email:</label>
+         <input type="email" id="participant-email" required />
+         <button type="submit" onclick="registerTraining()">Записаться</button>
+       </form>
+     </div>
+
+     <div id="success-message" style="display: none; background-color: #dff0d8; color: #3c763d; padding: 10px; border-radius: 5px; margin-bottom: 10px;">Регистрация на тренинг успешно завершена!</div>
+   </main>
 </div>
 
-<footer>
-  <!-- Вставьте содержимое вашего футера -->
-</footer>
+<script src="../js/script.js"></script>
+<script>
+  function openRegistrationModal() {
+    var modal = document.getElementById('registration-modal');
+    modal.style.display = 'block';
+  }
 
-<script src="/js/jquery-3.3.1.slim.min.js"></script>
-<script src="/js/bootstrap.bundle.min.js"></script>
+  function toggleDetails(button) {
+    var details = button.parentElement.querySelector('.training-details');
+    details.classList.toggle('show-details');
+  }
+
+  function registerTraining() {
+    var successMessage = document.getElementById('success-message');
+    successMessage.style.display = 'block';
+    setTimeout(function() {
+      successMessage.style.display = 'none';
+    }, 3000);
+  }
+</script>
 </body>
 </html>

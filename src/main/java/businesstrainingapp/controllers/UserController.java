@@ -6,6 +6,7 @@ import businesstrainingapp.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("/users")
 @Tag(name = "Пользователи", description = "методы для работы с пользователями")
 @SecurityRequirement(name = "basicAuth")
@@ -45,8 +47,9 @@ public class UserController {
     }
 
     @PostMapping("/new-user")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @Operation(summary = "Регистранция нового пользователя")
-    public ResponseEntity<Void> addUser(@RequestBody RegistrationUserDTO userDTO) {
+    public ResponseEntity<Void> addUser(@RequestBody @Valid RegistrationUserDTO userDTO) {
         userService.addUser(userDTO);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();

@@ -6,7 +6,6 @@ import businesstrainingapp.DTO.UserInfoDTO;
 import businesstrainingapp.exceptions.TrainingFullException;
 import businesstrainingapp.exceptions.TrainingNotFoundException;
 import businesstrainingapp.exceptions.UserNotFoundException;
-import businesstrainingapp.mappers.TrainingMapper;
 import businesstrainingapp.mappers.UserMapper;
 import businesstrainingapp.models.Training;
 import businesstrainingapp.models.User;
@@ -14,6 +13,8 @@ import businesstrainingapp.repositories.TrainingRepository;
 import businesstrainingapp.repositories.UserRepository;
 import businesstrainingapp.services.TrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -24,6 +25,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+
+import static businesstrainingapp.mappers.TrainingMapper.TRAINING_MAPPER;
 
 @Service
 @Component
@@ -40,7 +43,7 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Override
     public List<TrainingInfoDTO> getAllAvailable() {
-        return TrainingMapper.TRAINING_MAPPER.toListTrainingInfoDTO(
+        return TRAINING_MAPPER.toListTrainingInfoDTO(
                 trainingRepository.findAllByAvailableIsTrueOrderByDateTimeAsc()
         );
     }
@@ -147,5 +150,65 @@ public class TrainingServiceImpl implements TrainingService {
 
         trainingRepository.save(training);
         userRepository.save(user);
+    }
+
+    @Override
+    public List<TrainingInfoDTO> getFilteredAndSortedInfo(String trainerName, String sortBy, String branch,
+                                                          int page, int size) {
+
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Training> trainingPage = null;
+
+        if (trainerName == null && branch == null) {
+            if (sortBy != null && sortBy.equals("dateAsc")) {
+                trainingPage = trainingRepository.findAllByOrderByDateTimeAsc(pageRequest);
+            } else if (sortBy != null && sortBy.equals("dateDesc")) {
+                trainingPage = trainingRepository.findAllByOrderByDateTimeDesc(pageRequest);
+            } else {
+                trainingPage = trainingRepository.findAll(pageRequest);
+            }
+        }
+
+        if (trainerName != null && branch == null) {
+            if (sortBy != null && sortBy.equals("dateAsc")) {
+                trainingPage = trainingRepository.findAllByTrainerNameContainingIgnoreCaseOrderByDateTimeAsc(
+                        trainerName, pageRequest);
+            } else if (sortBy != null && sortBy.equals("dateDesc")) {
+                trainingPage = trainingRepository.findAllByTrainerNameContainingIgnoreCaseOrderByDateTimeDesc(
+                        trainerName, pageRequest);
+            } else {
+                trainingPage = trainingRepository.findAllByTrainerNameContainingIgnoreCase(trainerName, pageRequest);
+            }
+        }
+
+        if (trainerName == null && branch != null) {
+            if (sortBy != null && sortBy.equals("dateAsc")) {
+                trainingPage = trainingRepository.findAllByBranchContainingIgnoreCaseOrderByDateTimeAsc(
+                        branch, pageRequest);
+            } else if (sortBy != null && sortBy.equals("dateDesc")) {
+                trainingPage = trainingRepository.findAllByBranchContainingIgnoreCaseOrderByDateTimeDesc(
+                        branch, pageRequest);
+            } else {
+                trainingPage = trainingRepository.findAllByBranchContainingIgnoreCase(branch, pageRequest);
+            }
+        }
+
+        if (trainerName != null && branch != null) {
+            if (sortBy != null && sortBy.equals("dateAsc")) {
+                trainingPage = trainingRepository
+                        .findAllByTrainerNameContainingIgnoreCaseAndBranchContainingIgnoreCaseOrderByDateTimeAsc(
+                                trainerName, branch, pageRequest);
+            } else if (sortBy != null && sortBy.equals("dateDesc")) {
+                trainingPage = trainingRepository
+                        .findAllByTrainerNameContainingIgnoreCaseAndBranchContainingIgnoreCaseOrderByDateTimeDesc(
+                                trainerName, branch, pageRequest);
+            } else {
+                trainingPage = trainingRepository
+                        .findAllByTrainerNameContainingIgnoreCaseAndBranchContainingIgnoreCase(
+                                trainerName, branch, pageRequest);
+            }
+        }
+
+        return TRAINING_MAPPER.toListTrainingInfoDTO(trainingPage.getContent());
     }
 }

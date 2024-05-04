@@ -6,6 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,6 +40,7 @@ public interface TrainingMapper {
         return TrainingInfoForTrainerDTO.builder()
                 .id(training.getId())
                 .topic(training.getTopic())
+                .branch(training.getBranch())
                 .usersAmount(training.getUsersAmount())
                 .finance(String.valueOf(training.getPrice() * training.getUsersAmount()))
                 .dateTime(String.valueOf(training.getDateTime()))

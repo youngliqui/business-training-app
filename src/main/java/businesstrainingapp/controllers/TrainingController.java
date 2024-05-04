@@ -8,6 +8,7 @@ import businesstrainingapp.services.HomeworkService;
 import businesstrainingapp.services.MaterialService;
 import businesstrainingapp.services.TrainingService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("/trainings")
 @Tag(name = "Тренинги", description = "методы для работы с тренингами")
 @SecurityRequirement(name = "basicAuth")
@@ -43,6 +45,19 @@ public class TrainingController {
         trainingService.updateTrainingAvailability();
 
         return trainingService.getAllAvailable();
+    }
+
+    @GetMapping(params = {"page", "size"})
+    @Operation(summary = "получение страниц с тренингами")
+    public List<TrainingInfoDTO> getFilteredAndSortedTrainings(
+            @RequestParam(value = "trainer", required = false) String trainerName,
+            @Parameter(description = "сортировка по {dateAsc/dateDesc}")
+            @RequestParam(value = "sortBy", required = false) String sortBy,
+            @RequestParam(value = "branch", required = false) String branch,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "5") int size
+    ) {
+        return trainingService.getFilteredAndSortedInfo(trainerName, sortBy, branch, page, size);
     }
 
     @PostMapping("/{id}/register")

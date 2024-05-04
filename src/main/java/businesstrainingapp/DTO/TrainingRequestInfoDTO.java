@@ -16,6 +16,9 @@ public class TrainingRequestInfoDTO {
     private Long id;
     @Schema(description = "Тема тренига")
     private String topic;
+
+    @Schema(description = "Отрасль тренинга")
+    private String branch;
     @Schema(description = "Описание тренинга")
     private String description;
     @Schema(description = "Дата и время проведения тренинга")

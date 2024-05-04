@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Активные тренинги</title>
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../CSS/style.css" />
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+    }
+
+    .dashboard-container {
+      display: flex;
+      flex-direction: row;
+    }
+  .rating-modal-body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .star-rating input[type="radio"] {
+      display: none;
+    }
+
+    .star-rating label {
+      font-size: 30px;
+      color: #ccc;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .star-rating input[type="radio"]:checked ~ label {
+      color: gold;
+    }
+
+    .nav-link {
+      display: block;
+      margin-bottom: 10px;
+      text-decoration: none;
+      color: #212529;
+    }
+
+    .nav-link:hover {
+      color: #007bff;
+    }
+
+    .profile-content {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .training-item {
+      background: #f0f0f0;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+
+    .training-details {
+      display: none;
+      margin-top: 10px;
+    }
+
+    .show-details {
+      display: block;
+    }
+
+    .btn-primary, .btn-info {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      color: white;
+      margin-right: 10px;
+    }
+
+    .btn-info {
+      background-color: #17a2b8;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+   <aside class="sidebar">
+   <nav class="nav flex-column">
+      <a class="nav-link" href="user-dashboard.html">Профиль</a>
+      <a class="nav-link" href="trainings.html">Список тренингов</a>
+      <a class="nav-link" href="active.html">Активные тренинги</a>
+      <a class="nav-link" href="future.html">Предстоящие тренинги</a>
+      <a class="nav-link" href="settings.html">Настройки</a>
+      <a class="nav-link" href="index.html">Выход</a>
+    </nav>
+  </aside>
+  <main class="profile-content">
+    <h1>Активные тренинги</h1>
+
+    <div class="training-list">
+      <div class="training-item">
+        <h2>Тренинг по управлению временем</h2>
+        <p>Дедлайн: 2024-05-20</p>
+        <button class="btn btn-info" onclick="toggleDetails(this)">Подробнее</button>
+        <div class="training-details">
+          <p>Описание тренинга: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus maximus congue lacus nec euismod. Mauris efficitur neque a pulvinar malesuada. Nullam lacinia tincidunt dui a suscipit. Duis scelerisque augue nec consequat ultrices.</p>
+          <p>Материалы для самостоятельной работы (здесь файлы для тренера)</p>
+          <button class="btn btn-primary">Выгрузить домашнюю работу</button>
+        </div>
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#rating-modal">Оценить</button>
+              </td>
+      </div>
+      <div class="training-item">
+        <h2>Тренинг по командной работе</h2>
+        <p>Дедлайн: 2024-06-15</p>
+        <button class="btn btn-info" onclick="toggleDetails(this)">Подробнее</button>
+        <div class="training-details">
+          <p>Описание тренинга: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus maximus congue lacus nec euismod. Mauris efficitur neque a pulvinar malesuada. Nullam lacinia tincidunt dui a suscipit. Duis scelerisque augue nec consequat ultrices.</p>
+          <p>Материалы для самостоятельной работы (здесь файлы для тренера)</p>
+          <button class="btn btn-primary">Выгрузить домашнюю работу</button>
+        </div>
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#rating-modal">Оценить</button>
+              </td>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="modal fade" id="rating-modal" tabindex="-1" aria-labelledby="rating-modal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Оценить участника</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body rating-modal-body">
+        <div class="star-rating">
+          <input type="radio" id="star5" name="rating" value="5">
+          <label for="star5">★</label>
+          <input type="radio" id="star4" name="rating" value="4">
+          <label for="star4">★</label>
+          <input type="radio" id="star3" name="rating" value="3">
+          <label for="star3">★</label>
+          <input type="radio" id="star2" name="rating" value="2">
+          <label for="star2">★</label>
+          <input type="radio" id="star1" name="rating" value="1">
+          <label for="star1">★</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+        <button type="button" class="btn btn-primary">Сохранить</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../js/script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  function toggleDetails(button) {
+    var details = button.nextElementSibling; 
+    details.classList.toggle('show-details'); 
+  }
+</script>
+
+</body>
+</html>

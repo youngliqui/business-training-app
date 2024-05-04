@@ -17,6 +17,7 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("/training-requests")
 @Tag(name = "Заявки на тренинг", description = "методы для работы с заявками на тренинг")
 @SecurityRequirement(name = "basicAuth")

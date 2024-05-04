@@ -23,6 +23,9 @@ public class TrainingRequest {
     @Column(nullable = false, length = 100)
     private String topic;
 
+    @Column(nullable = false)
+    private String branch;
+
     @Column(length = 1000)
     private String description;
 

@@ -18,6 +18,9 @@ public class ApplicationTrainingDTO {
     @Schema(description = "Тема тренинга")
     private String topic;
 
+    @Schema(description = "Отрасль тренинга")
+    private String branch;
+
     @Schema(description = "Дата и время проведения")
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
     private String dateTime;

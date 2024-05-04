@@ -30,6 +30,9 @@ public class Training {
     private String description;
 
     @Column(nullable = false)
+    private String branch;
+
+    @Column(nullable = false)
     private LocalDateTime dateTime;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trainer_id")
