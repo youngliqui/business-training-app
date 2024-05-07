@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,7 +31,7 @@
       border-radius: 5px;
       transition: background-color 0.3s;
     }
-    
+
     .status:hover {
       background-color: rgba(0, 0, 0, 0.1);
     }
@@ -62,11 +63,15 @@
       font-family: Arial, sans-serif;
     }
 
-    .user-info h2, .user-bio h3, .application-status h2, .training-archive h2 {
+    .user-info h2,
+    .user-bio h3,
+    .application-status h2,
+    .training-archive h2 {
       font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
   </style>
 </head>
+
 <body>
 
 <div class="container-fluid">
@@ -81,45 +86,46 @@
       </nav>
     </aside>
 
-    <main class="profile-content">
-    <section class="user-info">
-      <div class="profile-photo-container">
-        <img src="../img/default-avatar.png" alt="Фото профиля" class="profile-photo">
-        <button class="btn-change-photo">Изменить фото</button>
-      </div>
-      <h2>Имя Тренера</h2>
-      <div class="user-rating">
-        <span>★</span><span>★</span><span>★</span><span>★</span><span>☆</span> 
-      </div>
-    </section>
-<section class="user-bio content-block">
-  <h3>О тренере</h3>
-  <textarea id="bio" name="bio" rows="4" cols="50" placeholder="Расскажите о себе"></textarea>
-  <button onclick="editBio()">Редактировать</button>
-</section>
-<section class="application-status content-block">
-  <h2>Статус заявок</h2>
-  <ol>
-  <li class="training-status">
-    <span class="training-name">Управление временем</span>
-      <a class="status approved" href="training-page.html">Одобрено</a>
-  </li>
-  <li class="training-status">
-    <span class="training-name">Креативное мышление</span>
-    <span class="status rejected">Отклонено</span>
-  </li>
-  <li class="training-status">
-    <span class="training-name">Эффективные коммуникации</span>
-    <span class="status pending">В ожидании</span>
-  </li>
-</ol>
 
-</section>
-<section class="training-archive content-block">
+    <main class="profile-content">
+      <section class="user-info">
+        <div class="profile-photo-container">
+          <img src="../img/default-avatar.png" alt="Фото профиля" class="profile-photo">
+          <button class="btn-change-photo">Изменить фото</button>
+        </div>
+        <h2 class="trainer-name">Имя Тренера</h2>
+        <div class="user-rating">
+          <span>★</span><span>★</span><span>★</span><span>★</span><span>☆</span>
+        </div>
+      </section>
+      <section class="user-bio content-block">
+        <h3>О тренере</h3>
+        <textarea id="bio" name="bio" rows="4" cols="50" placeholder="Расскажите о себе"></textarea>
+        <button onclick="editBio()">Редактировать</button>
+      </section>
+      <section class="application-status content-block">
+        <h2>Статус заявок</h2>
+        <ol>
+          <li class="training-status">
+            <span class="training-name">Управление временем</span>
+            <a class="status approved" href="training-page.html">Одобрено</a>
+          </li>
+          <li class="training-status">
+            <span class="training-name">Креативное мышление</span>
+            <span class="status rejected">Отклонено</span>
+          </li>
+          <li class="training-status">
+            <span class="training-name">Эффективные коммуникации</span>
+            <span class="status pending">В ожидании</span>
+          </li>
+        </ol>
+
+      </section>
+      <section class="training-archive content-block">
         <h2>Архив тренингов</h2>
-        <ul>
-          <li>Маркетинг - 12.03.2024</li>
-          <li>SMM Marketing- 22.03.2024</li>
+        <ul class="trainer-trainings">
+<!--          <li>Маркетинг - 12.03.2024</li>-->
+<!--          <li>SMM Marketing- 22.03.2024</li>-->
         </ul>
       </section>
 
@@ -128,5 +134,7 @@
 </div>
 
 <script src="../js/script.js"></script>
+<script src="../js/trainerProfile.js"></script>
 </body>
+
 </html>

@@ -150,24 +150,22 @@ public class UserServiceImpl implements UserService {
                 () -> new UserNotFoundException("user with username - " + username + " was not found")
         );
 
-        Image image = null;
+        Image currentImage = user.getProfileImage();
 
-        if (user.getProfileImage() != null) {
-            image = user.getProfileImage();
-            image.setFilename(file.getOriginalFilename());
-            image.setData(file.getBytes());
-            image.setMimeType(file.getContentType());
-        } else {
-            image = Image.builder()
-                    .filename(file.getOriginalFilename())
-                    .mimeType(file.getContentType())
-                    .data(file.getBytes())
-                    .user(user)
-                    .build();
+        if (currentImage != null) {
+            imageRepository.delete(currentImage);
+            user.setProfileImage(null);
         }
-        imageRepository.save(image);
 
-        user.setProfileImage(image);
+        Image newImage = Image.builder()
+                .filename(file.getOriginalFilename())
+                .mimeType(file.getContentType())
+                .data(file.getBytes())
+                .user(user)
+                .build();
+        imageRepository.save(newImage);
+
+        user.setProfileImage(newImage);
         userRepository.save(user);
 
         return UserMapper.USER_MAPPER.toProfileUserDTO(user);

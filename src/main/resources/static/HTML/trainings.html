@@ -1,271 +1,236 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="../CSS/style.css" />
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../CSS/style.css"/>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+        }
 
-    .training-details {
-      display: none;
-    }
+        .training-details {
+            display: none;
+        }
 
-    .show-details {
-      display: block;
-    }
+        .show-details {
+            display: block;
+        }
 
-    .training-controls {
-      margin-bottom: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+        .training-controls {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-    .training-item {
-      background: #f0f0f0;
-      padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 5px;
-    }
+        .training-item {
+            background: #f0f0f0;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
 
-    .pagination__list{
-        display: flex;
-        list-style-type: none;
-    }
+        .pagination__list {
+            display: flex;
+            list-style-type: none;
+        }
 
-    .pagination__item{
-        padding: 8px;
-        margin: 8px;
-        cursor: pointer;
-    }
-
-
-    .btn-primary, .btn-info {
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      display: inline-block;
-    }
-
-    .btn-primary {
-      background-color: #007bff;
-      color: white;
-      margin-right: 10px;
-    }
-
-    .btn-info {
-      background-color: #17a2b8;
-      color: white;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1050;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      min-width: 300px;
-      max-width: 500px;
-      width: 90%;
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-    }
-
-    .modal form {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .modal form label {
-      margin-top: 10px;
-      margin-bottom: 5px;
-    }
-
-    .modal form input {
-      padding: 10px;
-      margin-bottom: 15px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-    }
-
-    .modal form button {
-      padding: 10px 15px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .modal form button:hover {
-      background-color: #0056b3;
-    }
-
-    #next-button{
-        width: 50px;
-        height: 50px;
-        background-color: unset;
-        border: none;
-        outline: none;
-    }
-    #prev-button{
-        width: 50px;
-        height: 50px;
-        background-color: unset;
-        border: none;
-        outline: none;
-
-    }
+        .pagination__item {
+            padding: 8px;
+            margin: 8px;
+            cursor: pointer;
+        }
 
 
+        .btn-primary, .btn-info {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-block;
+        }
 
-    .modal-backdrop {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 1040;
-    }
-  </style>
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+            margin-right: 10px;
+        }
+
+        .btn-info {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1050;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 300px;
+            max-width: 500px;
+            width: 90%;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .modal form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal form label {
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+
+        .modal form input {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .modal form button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .modal form button:hover {
+            background-color: #0056b3;
+        }
+
+        #next-button {
+            width: 50px;
+            height: 50px;
+            background-color: unset;
+            border: none;
+            outline: none;
+        }
+
+        #prev-button {
+            width: 50px;
+            height: 50px;
+            background-color: unset;
+            border: none;
+            outline: none;
+
+        }
+
+        #button-trainer {
+            width: 75px;
+            height: 25px;
+        }
+
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1040;
+        }
+    </style>
 </head>
 <body>
 
 <div class="dashboard-container">
-   <aside class="sidebar">
-   <nav class="nav flex-column">
-      <a class="nav-link" href="user-dashboard.html">Профиль</a>
-      <a class="nav-link" href="trainings.html">Список тренингов</a>
-      <a class="nav-link" href="active.html">Активные тренинги</a>
-      <a class="nav-link" href="settings.html">Настройки</a>
-      <a class="nav-link" href="index.html">Выход</a>
-    </nav>
-  </aside>
+    <aside class="sidebar">
+        <nav class="nav flex-column">
+            <a class="nav-link" href="user-dashboard.html">Профиль</a>
+            <a class="nav-link" href="trainings.html">Список тренингов</a>
+            <a class="nav-link" href="active.html">Активные тренинги</a>
+            <a class="nav-link" href="settings.html">Настройки</a>
+            <a class="nav-link" href="index.html">Выход</a>
+        </nav>
+    </aside>
 
-   <main class="profile-content">
-     <h1>Список тренингов</h1>
+    <main class="profile-content">
+        <h1>Список тренингов</h1>
 
-     <div class="training-controls">
-       <select id="sort-order">
-         <option value="nearest">Ближайшие даты</option>
-         <option value="farthest">Дальние даты</option>
-       </select>
+        <div class="training-controls">
+            <select id="sort-order">
+                <option value="nearest">Ближайшие даты</option>
+                <option value="farthest">Дальние даты</option>
+            </select>
 
-       <select id="industry-filter">
-         <option value="all">Все отрасли</option>
-         <option value="management">Управление</option>
-         <option value="communication">Коммуникация</option>
-         <option value="leadership">Лидерство</option>
-         <option value="it">IT и Кибербезопасность</option>
-       </select>
+            <select id="industry-filter">
+                <option value="all">Все отрасли</option>
+                <option value="management">Управление</option>
+                <option value="communication">Коммуникация</option>
+                <option value="leadership">Лидерство</option>
+                <option value="it">Информационные технологии</option>
+                <option value="cybersecurity">Кибербезопасность</option>
+            </select>
 
-       <input type="text" id="trainer-search" placeholder="Поиск по тренеру" />
-       <input type="date" id="date-search" />
-     </div>
+            <input type="text" id="trainer-search" placeholder="Поиск по тренеру"/>
+            <button id="button-trainer">Search</button>
+            <input type="date" id="date-search"/>
+        </div>
 
-     <div id="training-list">
-<!--       <div class="training-item">-->
-<!--         <h2>Эффективное управление командой</h2>-->
-<!--         <p>Тренер: Иван Иванов</p>-->
-<!--         <p>Дата: 2024-04-20</p>-->
-<!--         <p>Отрасль: Управление персоналом</p>-->
-<!--         <button class="btn btn-info" onclick="toggleDetails(this)">Подробнее</button>-->
-<!--         <button class="btn btn-primary" onclick="openRegistrationModal()">Записаться</button>-->
-<!--         <div class="training-details">-->
-<!--           <p>Подробности тренинга: ...</p>-->
-<!--         </div>-->
-<!--       </div>-->
-<!--       <div class="training-item">-->
-<!--         <h2>Основы кибербезопасности</h2>-->
-<!--         <p>Тренер: Мария Сидорова</p>-->
-<!--         <p>Дата: 2024-05-15</p>-->
-<!--         <p>Отрасль: IT и Кибербезопасность</p>-->
-<!--         <button class="btn btn-info" onclick="toggleDetails(this)">Подробнее</button>-->
-<!--         <button class="btn btn-primary" onclick="openRegistrationModal()">Записаться</button>-->
-<!--         <div class="training-details">-->
-<!--           <p>Подробности тренинга: ...</p>-->
-<!--         </div>-->
-<!--       </div>-->
-<!--       <div class="training-item">-->
-<!--         <h2>Эффективное коммуникативное взаимодействие</h2>-->
-<!--         <p>Тренер: Ольга Петрова</p>-->
-<!--         <p>Дата: 2024-06-10</p>-->
-<!--         <p>Отрасль: Коммуникация</p>-->
-<!--         <button class="btn btn-info" onclick="toggleDetails(this)">Подробнее</button>-->
-<!--         <button class="btn btn-primary" onclick="openRegistrationModal()">Записаться</button>-->
-<!--         <div class="training-details">-->
-<!--           <p>Подробности тренинга: ...</p>-->
-<!--         </div>-->
-<!--       </div>-->
-<!--       <div class="training-item">-->
-<!--         <h2>Лидерство и мотивация персонала</h2>-->
-<!--         <p>Тренер: Алексей Новиков</p>-->
-<!--         <p>Дата: 2024-07-05</p>-->
-<!--         <p>Отрасль: Лидерство</p>-->
-<!--         <button class="btn btn-info" onclick="toggleDetails(this)">Подробнее</button>-->
-<!--         <button class="btn btn-primary" onclick="openRegistrationModal()">Записаться</button>-->
-<!--         <div class="training-details">-->
-<!--           <p>Подробности тренинга: ...</p>-->
-<!--         </div>-->
-<!--       </div>-->
-     </div>
+        <div id="training-list">
+        </div>
 
-     <div class="pagination">
+        <div class="pagination">
 
-         <button id="prev-button"><img src="../img/chevron-back-outline.svg"></button>
-         <button id="next-button"><img src="../img/chevron-forward-outline.svg"></button>
+            <button id="prev-button"><img src="../img/chevron-back-outline.svg"></button>
+            <button id="next-button"><img src="../img/chevron-forward-outline.svg"></button>
 
-     </div>
+        </div>
 
-     <div id="registration-modal" class="modal">
-       <form id="registration-form">
-         <label for="participant-name">Ваше имя:</label>
-         <input type="text" id="participant-name" required />
-         <label for="participant-email">Ваш email:</label>
-         <input type="email" id="participant-email" required />
-         <button type="submit" onclick="registerTraining()">Записаться</button>
-       </form>
-     </div>
+        <div id="registration-modal" class="modal">
+            <form id="registration-form">
+                <label for="participant-name">Ваше имя:</label>
+                <input type="text" id="participant-name" required/>
+                <label for="participant-email">Ваш email:</label>
+                <input type="email" id="participant-email" required/>
+                <button type="submit" id="send-email-name">Записаться</button>
+            </form>
+        </div>
 
-     <!-- Добавленный элемент для сообщения об успешной регистрации -->
-     <div id="success-message" style="display: none; background-color: #dff0d8; color: #3c763d; padding: 10px; border-radius: 5px; margin-bottom: 10px;">Регистрация на тренинг успешно завершена!</div>
-   </main>
+        <!-- Добавленный элемент для сообщения об успешной регистрации -->
+        <div id="success-message"
+             style="display: none; background-color: #dff0d8; color: #3c763d; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
+            Регистрация на тренинг успешно завершена!
+        </div>
+    </main>
 </div>
 
 <script src="../js/script.js"></script>
 <script>
-  // Функция для открытия модального окна регистрации
-  function openRegistrationModal() {
-    var modal = document.getElementById('registration-modal');
-    modal.style.display = 'block'; // Отображаем модальное окно
-  }
+    // Функция для открытия модального окна регистрации
+    function openRegistrationModal() {
+        var modal = document.getElementById('registration-modal');
+        modal.style.display = 'block'; // Отображаем модальное окно
+    }
 
-  // Функция для переключения отображения подробной информации о тренинге
-  function toggleDetails(button) {
-    var details = button.parentElement.querySelector('.training-details'); // Получаем блок с подробной информацией
-    details.classList.toggle('show-details'); // Переключаем класс для отображения/скрытия подробной информации
-  }
+    // Функция для переключения отображения подробной информации о тренинге
+    function toggleDetails(button) {
+        var details = button.parentElement.querySelector('.training-details'); // Получаем блок с подробной информацией
+        details.classList.toggle('show-details'); // Переключаем класс для отображения/скрытия подробной информации
+    }
 
-  // Функция для отправки данных регистрации и отображения сообщения об успешной регистрации
-  function registerTraining() {
-    // Ваша логика регистрации
-    // Предположим, что регистрация прошла успешно
-    var successMessage = document.getElementById('success-message');
-    successMessage.style.display = 'block'; // Отображаем сообщение
-    setTimeout(function() {
-      successMessage.style.display = 'none'; // Скрываем сообщение через некоторое время
-    }, 3000); // Через 3 секунды
-  }
+    // Функция для отправки данных регистрации и отображения сообщения об успешной регистрации
+    function registerTraining() {
+        // Ваша логика регистрации
+        // Предположим, что регистрация прошла успешно
+        var successMessage = document.getElementById('success-message');
+        successMessage.style.display = 'block'; // Отображаем сообщение
+        setTimeout(function () {
+            successMessage.style.display = 'none'; // Скрываем сообщение через некоторое время
+        }, 3000); // Через 3 секунды
+    }
 </script>
-<script src = "../js/mainpagination.js"></script>
+<script src="../js/mainpagination.js"></script>
 </body>
 </html>

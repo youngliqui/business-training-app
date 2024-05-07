@@ -22,7 +22,7 @@ public class ProfileUserDTO {
     @Schema(description = "Архив тренингов")
     private List<String> trainingArchive;
     @Schema(description = "Рейтинг пользователя")
-    private Integer rating;
+    private Float rating;
     @Schema(description = "Ссылка на фото профиля пользователя")
     private String imageLink;
 }

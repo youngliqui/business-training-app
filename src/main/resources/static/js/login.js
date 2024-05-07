@@ -49,7 +49,7 @@ loginForm.addEventListener('submit', async (event) => {
 async function fetchProtectedData() {
     const basicAuthToken = localStorage.getItem('basicAuthToken');
     if (basicAuthToken) {
-        const response = await fetch('http://localhost:8080/users/profile', {
+        const response = await fetch('http://localhost:8080/users/trainings/active', {
             headers: {
                 'Authorization': `Basic ${basicAuthToken}`
             }

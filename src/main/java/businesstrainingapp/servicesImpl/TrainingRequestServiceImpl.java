@@ -59,11 +59,16 @@ public class TrainingRequestServiceImpl implements TrainingRequestService {
                 () -> new TrainingRequestNotFoundException("training request with id - " + trainingId + " was not found")
         );
 
+        User trainer = trainingRequest.getTrainer();
+
         Training training = TrainingMapper.TRAINING_MAPPER.toTraining(trainingRequest);
         training.setAvailable(true);
 
+        trainer.addTrainerTraining(training);
+
         trainingRepository.save(training);
         trainingRequestRepository.delete(trainingRequest);
+        userRepository.save(trainer);
     }
 
     @Override

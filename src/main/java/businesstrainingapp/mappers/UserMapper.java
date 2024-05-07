@@ -18,10 +18,20 @@ import java.util.stream.Collectors;
 public interface UserMapper {
     UserMapper USER_MAPPER = Mappers.getMapper(UserMapper.class);
 
-    @Mapping(target = "username", source = "name")
-    @Mapping(target = "trainingArchive", source = "userTrainings", qualifiedByName = "mapTrainingsToTrainingNames")
-    @Mapping(target = "imageLink", source = "profileImage", qualifiedByName = "mapImageToImageLink")
-    ProfileUserDTO toProfileUserDTO(User user);
+//    @Mapping(target = "username", source = "name")
+//    @Mapping(target = "trainingArchive", source = "userTrainings", qualifiedByName = "mapTrainingsToTrainingNames")
+//    @Mapping(target = "imageLink", source = "profileImage", qualifiedByName = "mapImageToImageLink")
+//    ProfileUserDTO toProfileUserDTO(User user);
+
+    default ProfileUserDTO toProfileUserDTO(User user) {
+        return ProfileUserDTO.builder()
+                .username(user.getName())
+                .description(user.getDescription())
+                .trainingArchive(getTrainingsArchive(user))
+                .rating(user.getRating())
+                .imageLink(mapImageToImageLink(user.getProfileImage()))
+                .build();
+    }
 
     UserInfoDTO toUserInfoDTO(User user);
 
@@ -32,6 +42,14 @@ public interface UserMapper {
         return trainings.stream()
                 .map(training -> training.getTopic() + " - " + training.getDateTime())
                 .collect(Collectors.toList());
+    }
+
+    default List<String> getTrainingsArchive(User user) {
+        if (user.getRole().name().equals("TRAINER")) {
+            return mapTrainingsToTrainingNames(user.getTrainerTrainings());
+        } else {
+            return mapTrainingsToTrainingNames(user.getUserTrainings());
+        }
     }
 
     @Named("mapImageToImageLink")
