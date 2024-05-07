@@ -40,7 +40,7 @@ public class TrainingController {
     }
 
     @GetMapping
-    @Operation(summary = "получение доступных тренингов")
+    @Operation(summary = "Получение всех доступных тренингов")
     public List<TrainingInfoDTO> getAllAvailable() {
         trainingService.updateTrainingAvailability();
 

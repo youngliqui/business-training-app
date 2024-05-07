@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,16 @@ public class UserController {
         return userService.getAll();
     }
 
+    @GetMapping("/user-role")
+    @Operation(summary = "Получение роли пользователя")
+    public ResponseRole getUserRole(Principal principal) {
+        if (principal == null) {
+            throw new UserNotAuthorizeException("You are not authorize");
+        }
+
+        return userService.getUserRoleByUsername(principal.getName());
+    }
+
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @Operation(summary = "Получение информации о пользователе по id")
@@ -47,7 +58,6 @@ public class UserController {
     }
 
     @PostMapping("/new-user")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @Operation(summary = "Регистранция нового пользователя")
     public ResponseEntity<Void> addUser(@RequestBody @Valid RegistrationUserDTO userDTO) {
         userService.addUser(userDTO);
@@ -180,5 +190,16 @@ public class UserController {
         // написать логику функции заявки пользователя, чтобы стать тренером
 
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @GetMapping("/trainings/active")
+    @Operation(summary = "Получение списка активных тренингов пользователя")
+    @PreAuthorize("hasAuthority('USER')")
+    public List<TrainingInfoDTO> getActiveTrainingsForUser(Principal principal) {
+        if (principal == null) {
+            throw new UserNotAuthorizeException("you are not authorize");
+        }
+
+        return userService.getActiveTrainings(principal.getName());
     }
 }

@@ -1,9 +1,6 @@
 package businesstrainingapp.services;
 
-import businesstrainingapp.DTO.ProfileUserDTO;
-import businesstrainingapp.DTO.RegistrationUserDTO;
-import businesstrainingapp.DTO.UpdationUserDTO;
-import businesstrainingapp.DTO.UserInfoDTO;
+import businesstrainingapp.DTO.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -37,4 +34,8 @@ public interface UserService {
     List<UserInfoDTO> getBlockedUsers();
 
     void ratingUser(Long userId, Integer rating, String trainerName);
+
+    ResponseRole getUserRoleByUsername(String username);
+
+    List<TrainingInfoDTO> getActiveTrainings(String username);
 }

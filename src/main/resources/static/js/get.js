@@ -1,12 +1,10 @@
-
-
-
-
-
-
-
 const getData = async(url) =>{
-    const response = await fetch ("http://localhost:8080/trainings")
+    const basicAuthToken = localStorage.getItem('basicAuthToken');
+    const response = await fetch ("http://localhost:8080/trainings", {
+        headers: {
+            'Authorization': `Basic ${basicAuthToken}`
+        }
+    })
 
     if(!response.ok){
         throw new Error(`error nahui ${response.status}`)

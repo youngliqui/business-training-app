@@ -1,14 +1,13 @@
 package businesstrainingapp.servicesImpl;
 
-import businesstrainingapp.DTO.ProfileUserDTO;
-import businesstrainingapp.DTO.RegistrationUserDTO;
-import businesstrainingapp.DTO.UpdationUserDTO;
-import businesstrainingapp.DTO.UserInfoDTO;
+import businesstrainingapp.DTO.*;
 import businesstrainingapp.exceptions.PasswordNotMatchException;
 import businesstrainingapp.exceptions.UserNotFoundException;
+import businesstrainingapp.mappers.TrainingMapper;
 import businesstrainingapp.mappers.UserMapper;
 import businesstrainingapp.models.Enums.Role;
 import businesstrainingapp.models.Image;
+import businesstrainingapp.models.Training;
 import businesstrainingapp.models.User;
 import businesstrainingapp.repositories.ImageRepository;
 import businesstrainingapp.repositories.UserRepository;
@@ -23,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @Component
@@ -253,4 +253,26 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    @Override
+    public ResponseRole getUserRoleByUsername(String username) {
+        User user = userRepository.findByName(username).orElseThrow(
+                () -> new UserNotFoundException("user with name - " + username + " was not found")
+        );
+
+        return ResponseRole.builder()
+                .role(user.getRole().name())
+                .build();
+    }
+
+    @Override
+    public List<TrainingInfoDTO> getActiveTrainings(String username) {
+        User user = userRepository.findByName(username).orElseThrow(
+                () -> new UserNotFoundException("user with name - " + username + " was not found")
+        );
+
+        return TrainingMapper.TRAINING_MAPPER.toListTrainingInfoDTO(user.getUserTrainings().stream()
+                .filter(Training::isAvailable)
+                .collect(Collectors.toList())
+        );
+    }
 }
