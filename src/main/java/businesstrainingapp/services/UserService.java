@@ -10,6 +10,7 @@ public interface UserService {
     void addUser(RegistrationUserDTO userDTO);
 
     List<UserInfoDTO> getAll();
+    List<UserInfoDTO> getAllAvailable();
 
     ProfileUserDTO getUserProfileById(Long id);
 

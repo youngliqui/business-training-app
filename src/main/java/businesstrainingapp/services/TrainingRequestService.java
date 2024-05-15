@@ -14,4 +14,6 @@ public interface TrainingRequestService {
     void approveTrainingRequestById(Long trainingId);
 
     void rejectTrainingRequestById(Long trainingId);
+
+    List<TrainingRequestInfoDTO> getAllByTrainer(String name);
 }

@@ -86,6 +86,49 @@
       background-color: #17a2b8;
       color: white;
     }
+
+    .links-details {
+        display: flex;
+        justify-content: space-between;
+        width: 300px;
+    }
+
+    .icon {
+        width: 30px;
+        height: 30px;
+    }
+
+    .materials {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .files {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .buttonUnload {
+        display: flex;
+        background-color: #007bff;
+        color: white;
+        margin-right: 10px;
+    }
+
+    .training-details {
+        display: none;
+        margin-top: 10px;
+        flex-direction: column;
+    }
+
+    .block-materials {
+        margin-top: 30px;
+    }
+
+
+
   </style>
 </head>
 <body>
@@ -105,30 +148,6 @@
     <h1>Активные тренинги</h1>
 
     <div class="training-list">
-<!--      <div class="training-item">-->
-<!--        <h2>Тренинг по управлению временем</h2>-->
-<!--        <p>Дедлайн: 2024-05-20</p>-->
-<!--        <button class="btn btn-info" onclick="toggleDetails(this)">Подробнее</button>-->
-<!--        <div class="training-details">-->
-<!--          <p>Описание тренинга: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus maximus congue lacus nec euismod. Mauris efficitur neque a pulvinar malesuada. Nullam lacinia tincidunt dui a suscipit. Duis scelerisque augue nec consequat ultrices.</p>-->
-<!--          <p>Материалы для самостоятельной работы (здесь файлы для тренера)</p>-->
-<!--          <button class="btn btn-primary">Выгрузить домашнюю работу</button>-->
-<!--        </div>-->
-<!--          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#rating-modal">Оценить</button>-->
-<!--              </td>-->
-<!--      </div>-->
-<!--      <div class="training-item">-->
-<!--        <h2>Тренинг по командной работе</h2>-->
-<!--        <p>Дедлайн: 2024-06-15</p>-->
-<!--        <button class="btn btn-info" onclick="toggleDetails(this)">Подробнее</button>-->
-<!--        <div class="training-details">-->
-<!--          <p>Описание тренинга: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus maximus congue lacus nec euismod. Mauris efficitur neque a pulvinar malesuada. Nullam lacinia tincidunt dui a suscipit. Duis scelerisque augue nec consequat ultrices.</p>-->
-<!--          <p>Материалы для самостоятельной работы (здесь файлы для тренера)</p>-->
-<!--          <button class="btn btn-primary">Выгрузить домашнюю работу</button>-->
-<!--        </div>-->
-<!--          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#rating-modal">Оценить</button>-->
-<!--              </td>-->
-<!--      </div>-->
     </div>
   </main>
 </div>
@@ -172,6 +191,7 @@
 </script>
 
 <script src="../js/active.js"></script>
+
 
 </body>
 </html>

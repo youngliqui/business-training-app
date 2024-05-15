@@ -36,7 +36,7 @@ public class UserController {
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @Operation(summary = "Получение информации о всех пользователях")
     public List<UserInfoDTO> getUsers() {
-        return userService.getAll();
+        return userService.getAllAvailable();
     }
 
     @GetMapping("/user-role")

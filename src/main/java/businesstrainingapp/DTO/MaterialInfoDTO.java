@@ -14,8 +14,11 @@ import lombok.NoArgsConstructor;
 public class MaterialInfoDTO {
     @Schema(description = "id материала")
     private Long id;
-    @Schema(description = "Данные материала")
-    private byte[] data;
+    @Schema(description = "ссылка на материал")
+    private String link;
     @Schema(description = "Название файла")
     private String filename;
+
+    @Schema(description = "Описание к файлу")
+    private String description;
 }

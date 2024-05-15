@@ -68,4 +68,17 @@ public class TrainingRequestController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+
+    @GetMapping("/trainer")
+    @PreAuthorize("hasAnyAuthority('TRAINER')")
+    @Operation(summary = "Получение заявок для тренера")
+    public List<TrainingRequestInfoDTO> getRequestsByTrainer(Principal principal) {
+        if (principal == null) {
+            throw new UserNotAuthorizeException("you are not authorize");
+        }
+
+        return trainingRequestService.getAllByTrainer(principal.getName());
+    }
+
+
 }

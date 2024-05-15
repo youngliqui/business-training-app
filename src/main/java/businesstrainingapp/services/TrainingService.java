@@ -25,4 +25,6 @@ public interface TrainingService {
     void cancelTrainingAppointment(Long trainingId, String username);
 
     List<TrainingInfoDTO> getFilteredAndSortedInfo(String trainerName, String sortBy, String branch, int page, int size);
+
+    List<TrainingInfoDTO> getAllByTrainer(String name);
 }

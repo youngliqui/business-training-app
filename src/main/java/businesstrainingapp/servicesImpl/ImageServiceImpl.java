@@ -33,6 +33,13 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
+    public Image getImage(Long id) {
+        return imageRepository.findById(id).orElseThrow(
+                () -> new ImageNotFoundException("image with id - " + id + " was not found")
+        );
+    }
+
+    @Override
     @Transactional
     public Image save(MultipartFile file) throws Exception {
         if (imageRepository.existsByFilename(file.getOriginalFilename())) {

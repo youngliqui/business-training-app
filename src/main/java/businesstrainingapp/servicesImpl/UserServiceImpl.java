@@ -65,6 +65,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserInfoDTO> getAllAvailable() {
+        return UserMapper.USER_MAPPER.toListUserInfoDTO(userRepository.findAllByIsBlockedFalse());
+    }
+
+    @Override
     public ProfileUserDTO getUserProfileById(Long id) {
         User user = userRepository.findById(id).orElseThrow(
                 () -> new UserNotFoundException("user with id - " + id + " was not found")
@@ -153,19 +158,25 @@ public class UserServiceImpl implements UserService {
         Image currentImage = user.getProfileImage();
 
         if (currentImage != null) {
-            imageRepository.delete(currentImage);
-            user.setProfileImage(null);
+            currentImage.setMimeType(file.getContentType());
+            currentImage.setFilename(file.getOriginalFilename());
+            currentImage.setData(file.getBytes());
+
+            user.setProfileImage(currentImage);
+            imageRepository.save(currentImage);
+        } else {
+            Image newImage = Image.builder()
+                    .filename(file.getOriginalFilename())
+                    .mimeType(file.getContentType())
+                    .data(file.getBytes())
+                    .user(user)
+                    .build();
+
+            user.setProfileImage(newImage);
+            imageRepository.save(newImage);
         }
 
-        Image newImage = Image.builder()
-                .filename(file.getOriginalFilename())
-                .mimeType(file.getContentType())
-                .data(file.getBytes())
-                .user(user)
-                .build();
-        imageRepository.save(newImage);
 
-        user.setProfileImage(newImage);
         userRepository.save(user);
 
         return UserMapper.USER_MAPPER.toProfileUserDTO(user);

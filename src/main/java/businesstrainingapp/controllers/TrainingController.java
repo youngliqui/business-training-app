@@ -99,7 +99,7 @@ public class TrainingController {
     }
 
     @GetMapping("/{id}/homeworks")
-    @PreAuthorize("hasAuthority('TRAINER')")
+    @PreAuthorize("hasAnyAuthority('TRAINER', 'USER')")
     @Operation(summary = "получение домашних заданий тренинга")
     public List<HomeworkInfoDTO> getHomeworksForTraining(@PathVariable("id") Long trainingId, Principal principal) {
         if (principal == null) {
@@ -107,8 +107,9 @@ public class TrainingController {
         }
 
         Training training = trainingService.getTrainingById(trainingId);
-        if (!trainingService.checkTrainer(principal.getName(), training)) {
-            throw new UserNotAuthorizeException("You are not the trainer of this training");
+        if (!trainingService.checkTrainer(principal.getName(), training)
+                && !trainingService.checkUser(principal.getName(), trainingId)) {
+            throw new UserNotAuthorizeException("You are not the trainer or user of this training");
         }
 
         return TrainingMapper.TRAINING_MAPPER.toListHomeworkInfoDTO(homeworkService.getFilesByTrainingId(trainingId));
@@ -187,5 +188,16 @@ public class TrainingController {
         trainingService.cancelTrainingAppointment(trainingId, principal.getName());
 
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @GetMapping("/trainer")
+    @Operation(summary = "Получение тренинов для тренера")
+    @PreAuthorize("hasAuthority('TRAINER')")
+    public List<TrainingInfoDTO> getTrainingsByTrainer(Principal principal) {
+        if (principal == null) {
+            throw new UserNotAuthorizeException("you are not authorize");
+        }
+
+        return trainingService.getAllByTrainer(principal.getName());
     }
 }

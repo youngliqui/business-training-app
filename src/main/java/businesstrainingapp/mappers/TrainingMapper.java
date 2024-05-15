@@ -6,10 +6,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
-import org.springframework.data.domain.Page;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Mapper
 public interface TrainingMapper {
@@ -49,17 +48,30 @@ public interface TrainingMapper {
                 .build();
     }
 
-    default List<MaterialInfoDTO> mapMaterialsToDTO(List<MaterialEntity> materials) {
-        return materials.stream().map(material -> MaterialInfoDTO.builder()
-                .data(material.getData())
-                .id(material.getId())
-                .filename(material.getFilename())
-                .build()
-        ).collect(Collectors.toList());
+
+    @Mapping(target = "link", source = "id", qualifiedByName = "mapMaterialToLink")
+    MaterialInfoDTO mapMaterialToDTO(MaterialEntity material);
+
+    List<MaterialInfoDTO> mapMaterialsToDTO(List<MaterialEntity> materials);
+
+
+    @Named("mapMaterialToLink")
+    default String mapMaterialToLink(Long id) {
+        return ServletUriComponentsBuilder.fromCurrentRequest()
+                .replacePath("/files/materials/" + id)
+                .toUriString();
     }
 
     @Mapping(target = "username", source = "user", qualifiedByName = "mapTrainerToTrainerName")
+    @Mapping(target = "link", source = "id", qualifiedByName = "mapHomeworkToLink")
     HomeworkInfoDTO toHomeworkInfoDTO(HomeworkEntity homework);
 
     List<HomeworkInfoDTO> toListHomeworkInfoDTO(List<HomeworkEntity> homeworks);
+
+    @Named("mapHomeworkToLink")
+    default String mapHomeworkToLink(Long id) {
+        return ServletUriComponentsBuilder.fromCurrentRequest()
+                .replacePath("/files/homeworks/" + id)
+                .toUriString();
+    }
 }

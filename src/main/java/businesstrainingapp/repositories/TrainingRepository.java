@@ -14,6 +14,7 @@ public interface TrainingRepository extends JpaRepository<Training, Long> {
     List<Training> findAllByAvailableIsTrueOrderByDateTimeAsc();
 
     List<Training> findAllByAvailableTrue();
+    List<Training> findAllByTrainerName(String name);
 
     boolean existsByIdAndUsersId(Long trainingId, Long userId);
 

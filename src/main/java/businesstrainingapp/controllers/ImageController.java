@@ -43,6 +43,17 @@ public class ImageController {
                 .body(body);
     }
 
+    @GetMapping("/db/id/{id}")
+    @Operation(summary = "Извлечь изображение по id")
+    public ResponseEntity<Resource> retrieve(@PathVariable Long id) {
+        var image = imageService.getImage(id);
+        var body = new ByteArrayResource(image.getData());
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_TYPE, image.getMimeType())
+                .body(body);
+    }
+
     @PostMapping("/db/upload")
     @Operation(summary = "Загрузить изображение в БД")
     public ImageSaveResult upload(@RequestPart MultipartFile file) {

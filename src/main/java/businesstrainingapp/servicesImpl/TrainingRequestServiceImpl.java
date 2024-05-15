@@ -80,4 +80,11 @@ public class TrainingRequestServiceImpl implements TrainingRequestService {
 
         trainingRequestRepository.delete(trainingRequest);
     }
+
+    @Override
+    public List<TrainingRequestInfoDTO> getAllByTrainer(String name) {
+        return TrainingMapper.TRAINING_MAPPER.toListTrainingRequestsInfoDTO(
+                trainingRequestRepository.findAllByTrainerName(name)
+        );
+    }
 }

@@ -26,7 +26,7 @@ loginForm.addEventListener('submit', async (event) => {
                     window.location.href = 'trainer-dashboard.html';
                     break;
                 case 'USER':
-                    window.location.href = 'user-dashboard.html';
+                    window.location.href = 'active.html';
                     break;
                 case 'ADMIN':
                     window.location.href = 'manager-dashboard.html';

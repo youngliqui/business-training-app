@@ -14,8 +14,11 @@ import lombok.NoArgsConstructor;
 public class HomeworkInfoDTO {
     @Schema(description = "id домашнего задания")
     private Long id;
-    @Schema(description = "данные домашнего задания")
-    private byte[] data;
+    @Schema(description = "ссылка на домашнее задание")
+    private String link;
+
+    @Schema(description = "домашнее задание")
+    private String filename;
     @Schema(description = "имя пользователя")
     private String username;
 }

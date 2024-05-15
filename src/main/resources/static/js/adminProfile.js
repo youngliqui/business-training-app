@@ -141,42 +141,10 @@ const setProfile = async () => {
     const response = await fetch(profile.imageLink)
     const blob = await response.blob()
     const imageUrl = URL.createObjectURL(blob)
-
-
     const image = document.querySelector(".profile-photo")
     image.src = imageUrl
 
     document.querySelector(".admin-name").innerText = profile.username
-}
-
-const changeProfileImage = async (file) => {
-    const basicAuthToken = localStorage.getItem('basicAuthToken');
-    if (basicAuthToken) {
-        const formData = new FormData();
-        formData.append('file', file);
-
-        const response = await fetch('http://localhost:8080/profile/image', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Basic ${basicAuthToken}`
-            },
-            body: formData
-        });
-
-        if (response.ok) {
-            const profile = await getProfile();
-            const responseImage = await fetch(profile.imageLink);
-            const blob = await responseImage.blob();
-            const imageUrl = URL.createObjectURL(blob);
-
-            const image = document.querySelector(".profile-photo");
-            image.src = imageUrl;
-
-            alert('Фотография профиля успешно изменена!');
-        } else {
-            alert('Ошибка при изменении фотографии профиля');
-        }
-    }
 }
 
 const changePhotoButton = document.querySelector(".btn-change-photo");
@@ -190,6 +158,41 @@ changePhotoButton.addEventListener("click", () => {
     };
     fileInput.click();
 });
+
+const changeProfileImage = async (file) => {
+    const basicAuthToken = localStorage.getItem('basicAuthToken');
+    if (basicAuthToken) {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            const response = await fetch('http://localhost:8080/users/profile/image', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Basic ${basicAuthToken}`
+                },
+                body: formData
+            });
+
+            if (response.ok) {
+                const profile = await getProfile();
+                const responseImage = await fetch(profile.imageLink);
+                const blob = await responseImage.blob();
+                const imageUrl = URL.createObjectURL(blob);
+
+                const image = document.querySelector(".profile-photo");
+                image.src = imageUrl;
+
+                alert('Фотография профиля успешно изменена!');
+            } else {
+                alert('Ошибка при изменении фотографии профиля');
+            }
+        } catch (error) {
+            console.error('Ошибка при изменении фотографии профиля:', error);
+            alert('Произошла ошибка при изменении фотографии профиля. Пожалуйста, попробуйте еще раз.');
+        }
+    }
+}
 
 const approveTraining = async (id) => {
     const basicAuthToken = localStorage.getItem('basicAuthToken')

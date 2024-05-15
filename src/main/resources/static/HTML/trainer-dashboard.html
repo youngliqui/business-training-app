@@ -91,33 +91,33 @@
       <section class="user-info">
         <div class="profile-photo-container">
           <img src="../img/default-avatar.png" alt="Фото профиля" class="profile-photo">
-          <button class="btn-change-photo">Изменить фото</button>
+            <button class="btn btn-primary btn-change-photo">Изменить фото</button>
         </div>
         <h2 class="trainer-name">Имя Тренера</h2>
         <div class="user-rating">
-          <span>★</span><span>★</span><span>★</span><span>★</span><span>☆</span>
+<!--          <span>★</span><span>★</span><span>★</span><span>★</span><span>☆</span>-->
         </div>
       </section>
       <section class="user-bio content-block">
         <h3>О тренере</h3>
-        <textarea id="bio" name="bio" rows="4" cols="50" placeholder="Расскажите о себе"></textarea>
-        <button onclick="editBio()">Редактировать</button>
+        <textarea disabled = disabled id="bio" name="bio" rows="4" cols="50" placeholder="Расскажите о себе"></textarea>
+        <button class="button-edit-text">Редактировать</button>
       </section>
       <section class="application-status content-block">
         <h2>Статус заявок</h2>
-        <ol>
-          <li class="training-status">
-            <span class="training-name">Управление временем</span>
-            <a class="status approved" href="training-page.html">Одобрено</a>
-          </li>
-          <li class="training-status">
-            <span class="training-name">Креативное мышление</span>
-            <span class="status rejected">Отклонено</span>
-          </li>
-          <li class="training-status">
-            <span class="training-name">Эффективные коммуникации</span>
-            <span class="status pending">В ожидании</span>
-          </li>
+        <ol class="training-approves-and-waited">
+<!--          <li class="training-status">-->
+<!--            <span class="training-name">Управление временем</span>-->
+<!--            <a class="status approved" href="training-page.html">Одобрено</a>-->
+<!--          </li>-->
+<!--          <li class="training-status">-->
+<!--            <span class="training-name">Креативное мышление</span>-->
+<!--            <span class="status rejected">Отклонено</span>-->
+<!--          </li>-->
+<!--          <li class="training-status">-->
+<!--            <span class="training-name">Эффективные коммуникации</span>-->
+<!--            <span class="status pending">В ожидании</span>-->
+<!--          </li>-->
         </ol>
 
       </section>

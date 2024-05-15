@@ -211,4 +211,11 @@ public class TrainingServiceImpl implements TrainingService {
 
         return TRAINING_MAPPER.toListTrainingInfoDTO(trainingPage.getContent());
     }
+
+    @Override
+    public List<TrainingInfoDTO> getAllByTrainer(String name) {
+        return TRAINING_MAPPER.toListTrainingInfoDTO(
+                trainingRepository.findAllByTrainerName(name)
+        );
+    }
 }

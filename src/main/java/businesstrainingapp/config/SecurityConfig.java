@@ -60,6 +60,9 @@ public class SecurityConfig {
                 .cors(cors -> {
                     CorsConfiguration config = new CorsConfiguration();
                     config.applyPermitDefaultValues();
+                    config.addAllowedMethod("PATCH");
+                    config.addAllowedMethod("DELETE");
+                    config.addAllowedMethod("PUT");
                     config.setAllowedOrigins(List.of("http://localhost:63342"));
                     cors.configurationSource(request -> config);
                 })
